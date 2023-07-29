@@ -1,7 +1,15 @@
 const createHttpError = require("http-errors");
-const { RandomNumberGenerator } = require("../../../utils/functions.utils");
+const {
+  RandomNumberGenerator,
+  SignAccessToken,
+  SignRefreshToken,
+  verifyRefreshToken,
+} = require("../../../utils/functions.utils");
 const UserModel = require("../../models/user/user.model");
-const { GetOtpValidation } = require("../../validation/auth/auth.validation");
+const {
+  GetOtpValidation,
+  CheckOtpValidation,
+} = require("../../validation/auth/auth.validation");
 const { StatusCodes: HttpStatus } = require("http-status-codes");
 const Controller = require("../controller");
 
@@ -28,7 +36,29 @@ class Auth extends Controller {
 
   async checkOtp(req, res, next) {
     try {
-        
+      const validation = await CheckOtpValidation.validateAsync(req.body);
+      const { mobile, code } = validation;
+      const user = await UserModel.findOne(
+        { mobile },
+        { password: 0, accessToken: 0, refreshToken: 0 }
+      );
+      if (!user) throw createHttpError.NotFound("کاربر مورد نظر یافت نشد");
+      if (user.otp.code != code)
+        throw createHttpError.Unauthorized("کد وارد شده معتبر نمی باشد");
+      const now = new Date().getTime();
+      if (+user.otp.expiresIn < now)
+        throw createHttpError.Unauthorized("کد وارد شده منقضی شده است");
+      const accessToken = await SignAccessToken(user._id);
+      const refreshToken = await SignRefreshToken(user._id);
+      res.status(HttpStatus.OK).json({
+        statusCode: HttpStatus.OK,
+        data: {
+          message: "کد وارد شده صحیح می باشد",
+          accessToken,
+          refreshToken,
+          user,
+        },
+      });
     } catch (err) {
       next(err);
     }
@@ -36,6 +66,20 @@ class Auth extends Controller {
 
   async refreshToken(req, res, next) {
     try {
+      const { refreshToken } = req.body;
+      const mobile = await verifyRefreshToken(refreshToken);
+      const user = await UserModel.findOne({ mobile });
+      const accessToken = await SignAccessToken(user._id);
+      const newRefreshToken = await SignRefreshToken(user._id);
+      return res.status(HttpStatus.OK).json({
+        statusCode: HttpStatus.OK,
+        data: {
+          message: "توکن جدید ایجاد شد",
+          accessToken,
+          refreshToken: newRefreshToken,
+          user,
+        },
+      });
     } catch (err) {
       next(err);
     }
