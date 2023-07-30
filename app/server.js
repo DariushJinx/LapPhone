@@ -47,10 +47,10 @@ module.exports = class Application {
               },
             ],
             components: {
-              securitySchemas: {
+              securitySchemes: {
                 BearerAuth: {
                   type: "http",
-                  schema: "bearer",
+                  scheme: "bearer",
                   bearerFormat: "JWT",
                 },
               },
