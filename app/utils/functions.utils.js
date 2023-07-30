@@ -13,18 +13,18 @@ function RandomNumberGenerator() {
 
 function SignAccessToken(userID) {
   return new Promise(async (resolve, reject) => {
-    const user = UserModel.findById(userID);
+    const user = await UserModel.findById(userID)
     const payload = {
-      mobile: user.mobile,
+        mobile: user.mobile
     };
     const options = {
-      expiresIn: "1w",
+        expiresIn: "1d"
     };
     JWT.sign(payload, ACCESS_TOKEN_SECRET_KEY, options, (err, token) => {
-      if (err) reject(createHttpError.InternalServerError("خطای سرور"));
-      resolve(token);
-    });
-  });
+        if (err) reject(createError.InternalServerError("خطای سروری"));
+        resolve(token)
+    })
+})
 }
 
 function SignRefreshToken(userID) {
@@ -68,11 +68,29 @@ function verifyRefreshToken(token) {
   });
 }
 
+function copyObject(object) {
+  return JSON.parse(JSON.stringify(object));
+}
+
+function deleteInvalidPropertyInObject(data = {}, blackList = []) {
+  const nullishData = ["", " ", "0", 0, null, undefined];
+  Object.keys(data).forEach((key) => {
+    if (blackList.includes(key)) delete data[key];
+    if (typeof data[key] == "string") data[key] = data[key].trim();
+    if (Array.isArray(data[key]) && data[key].length > 0)
+      data[key] = data[key].map((item) => item.trim());
+    if (Array.isArray(data[key]) && data[key].length == 0) delete data[key];
+    if (nullishData.includes(data[key])) delete data[key];
+  });
+}
+
 const UtilsFunctions = {
   RandomNumberGenerator,
   SignAccessToken,
   SignRefreshToken,
   verifyRefreshToken,
+  copyObject,
+  deleteInvalidPropertyInObject,
 };
 
 module.exports = UtilsFunctions;
