@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const CategorySchema = new mongoose.Schema(
   {
     title: { type: String, required: true, unique: true },
+    images: { type: [String], default: [] },
     parent: {
       type: mongoose.Types.ObjectId,
       ref: "categories",
@@ -16,6 +17,13 @@ const CategorySchema = new mongoose.Schema(
     },
   }
 );
+
+CategorySchema.virtual("imagesURL").get(function () {
+  return this.images.map(
+    (image) =>
+      `${process.env.BASE_URL}:${process.env.APPLICATION_PORT}/${image}`
+  );
+});
 
 CategorySchema.virtual("children", {
   ref: "categories",
