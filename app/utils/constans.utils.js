@@ -1,19 +1,9 @@
 module.exports = {
   MongoIDPattern: /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i,
-  ROLES: Object.freeze({
-    USER: "USER",
-    ADMIN: "ADMIN",
-    WRITER: "WRITER",
-    SUPPLIER: "SUPPLIER",
-  }),
   PERMISSIONS: Object.freeze({
     USER: ["user"],
     ADMIN: ["all"],
-    SUPERADMIN: ["all"],
     ALL: "all",
-    CONTENT_MANAGER: ["blog", "category", "product"],
-    TEACHER: ["blog"],
-    SUPPLIER: ["product"],
   }),
   ACCESS_TOKEN_SECRET_KEY:
     "CCEBD888251E547C877C43A324B5DE12468F431EA0D19A259751E2C80EE35876",
