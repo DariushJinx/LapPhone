@@ -14,12 +14,15 @@ function getToken(headers) {
 function verifyAccessToken(req, res, next) {
   try {
     const token = getToken(req.headers);
-    JWT.verify(token, ACCESS_TOKEN_SECRET_KEY, (err, payload) => {
+    JWT.verify(token, ACCESS_TOKEN_SECRET_KEY, async (err, payload) => {
       try {
         if (err)
           throw createHttpError.Unauthorized("وارد حساب کاربری خود شوید");
         const { mobile } = payload || {};
-        const user = UserModel.findOne({ mobile }, { password: 0, otp: 0 });
+        const user = await UserModel.findOne(
+          { mobile },
+          { password: 0, otp: 0 }
+        );
         if (!user)
           throw createHttpError.Unauthorized("...وارد حساب کاربری خود شوید");
         req.user = user;
@@ -33,16 +36,4 @@ function verifyAccessToken(req, res, next) {
   }
 }
 
-function checkRole(role) {
-  return function (req, res, next) {
-    try {
-      const user = req.user;
-      if (user.role.includes(role)) return next();
-      throw createHttpError.Forbidden("شما به این سطح دسترسی ندارید");
-    } catch (err) {
-      next(err);
-    }
-  };
-}
-
-module.exports = {verifyAccessToken,checkRole};
+module.exports = { verifyAccessToken };
