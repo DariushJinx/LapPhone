@@ -7,6 +7,7 @@ const swaggerJSDoc = require("swagger-jsdoc");
 const { default: mongoose } = require("mongoose");
 const AllRoutes = require("./router/all.routes");
 const { notFound, errors } = require("./utils/erroHandler.utils");
+require("dotenv").config();
 
 module.exports = class Application {
   #app = express();
