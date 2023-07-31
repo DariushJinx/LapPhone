@@ -6,6 +6,8 @@ const {
 } = require("./constans.utils");
 const createHttpError = require("http-errors");
 const redisClient = require("./initRedis.utils");
+const path = require("path");
+const fs = require("fs");
 
 function RandomNumberGenerator() {
   return ~~(Math.random() * 90000 + 10000);
@@ -13,18 +15,18 @@ function RandomNumberGenerator() {
 
 function SignAccessToken(userID) {
   return new Promise(async (resolve, reject) => {
-    const user = await UserModel.findById(userID)
+    const user = await UserModel.findById(userID);
     const payload = {
-        mobile: user.mobile
+      mobile: user.mobile,
     };
     const options = {
-        expiresIn: "1d"
+      expiresIn: "1d",
     };
     JWT.sign(payload, ACCESS_TOKEN_SECRET_KEY, options, (err, token) => {
-        if (err) reject(createError.InternalServerError("خطای سروری"));
-        resolve(token)
-    })
-})
+      if (err) reject(createError.InternalServerError("خطای سروری"));
+      resolve(token);
+    });
+  });
 }
 
 function SignRefreshToken(userID) {
@@ -84,6 +86,24 @@ function deleteInvalidPropertyInObject(data = {}, blackList = []) {
   });
 }
 
+function ListOfImagesForRequest(files, fileUploadPath) {
+  if (files?.length > 0) {
+    return files
+      .map((file) => path.join(fileUploadPath, file.filename))
+      .map((item) => item.replace(/\\/g, "/"));
+  } else {
+    return [];
+  }
+}
+
+function deleteFileInPublic(fileAddress) {
+  if (fileAddress) {
+    const pathFile = path.join(__dirname, "..", "..", "public", fileAddress);
+    if (fs.existsSync(pathFile)) fs.unlinkSync(pathFile);
+  }
+}
+
+
 const UtilsFunctions = {
   RandomNumberGenerator,
   SignAccessToken,
@@ -91,6 +111,8 @@ const UtilsFunctions = {
   verifyRefreshToken,
   copyObject,
   deleteInvalidPropertyInObject,
+  ListOfImagesForRequest,
+  deleteFileInPublic,
 };
 
 module.exports = UtilsFunctions;
