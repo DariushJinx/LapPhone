@@ -38,11 +38,27 @@ BlogSchema.virtual("category_details", {
   localField: "_id",
   foreignField: "category",
 });
+BlogSchema.virtual("bookmark_details", {
+  ref: "users",
+  localField: "_id",
+  foreignField: "bookmarks",
+});
+BlogSchema.virtual("likes_details", {
+  ref: "users",
+  localField: "_id",
+  foreignField: "likes",
+});
+BlogSchema.virtual("dislikes_details", {
+  ref: "users",
+  localField: "_id",
+  foreignField: "dislikes",
+});
 
-BlogSchema.virtual("images_URL").get(function () {
-  return this.images.map((image) => {
-    `${process.env.BASE_URL}:${process.env.APPLICATION_PORT}/${image}`;
-  });
+BlogSchema.virtual("imagesURL").get(function () {
+  return this.images.map(
+    (image) =>
+      `${process.env.BASE_URL}:${process.env.APPLICATION_PORT}/${image}`
+  );
 });
 
 const BlogModel = mongoose.model("blogs", BlogSchema);
