@@ -6,6 +6,7 @@
  *              type : object
  *              required :
  *                  -   title
+ *                  -   images
  *              properties :
  *                  title :
  *                      type : string
@@ -13,6 +14,11 @@
  *                  parent :
  *                      type : string
  *                      description : the id of category parent
+ *                  images :
+ *                      type : array
+ *                      items:
+ *                          type: string
+ *                          format: binary
  */
 
 /**
@@ -25,6 +31,11 @@
  *                  title :
  *                      type : string
  *                      description : the title of category
+ *                  images :
+ *                      type : array
+ *                      items:
+ *                          type: string
+ *                          format: binary
  */
 
 /**
@@ -36,10 +47,7 @@
  *          requestBody :
  *              required : true
  *              content :
- *                  application/x-www-form-urlencoded :
- *                      schema :
- *                          $ref : '#/components/schemas/AddCategory'
- *                  application/json :
+ *                  multipart/form-data :
  *                      schema :
  *                          $ref : '#/components/schemas/AddCategory'
  *          responses :
@@ -101,10 +109,7 @@
  *          requestBody :
  *              required : true
  *              content :
- *                  application/x-www-form-urlencoded :
- *                      schema :
- *                          $ref : '#/components/schemas/UpdateCategory'
- *                  application/json :
+ *                  multipart/form-data :
  *                      schema :
  *                          $ref : '#/components/schemas/UpdateCategory'
  *          responses :
