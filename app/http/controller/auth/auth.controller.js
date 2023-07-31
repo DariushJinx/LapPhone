@@ -104,7 +104,7 @@ class Auth extends Controller {
     return await UserModel.create({
       mobile,
       otp,
-      role: countOfRegisteredUser > 2 ? "USER" : "ADMIN",
+      role: countOfRegisteredUser > 0 ? "USER" : "ADMIN",
     });
   }
 
