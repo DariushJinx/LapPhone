@@ -13,6 +13,10 @@ const AddCategoryValidation = Joi.object({
     .allow()
     .pattern(MongoIDPattern)
     .error(createHttpError.BadRequest("شناسه وارد شده صحیح نمی باشد")),
+  filename: Joi.string()
+    .pattern(/(\.png|\.jpg|\.webp|\.jpeg|\.gif)$/)
+    .error(createHttpError.BadRequest("فرمت عکس ارسالی صحیح نمی باشد")),
+  fileUploadPath: Joi.allow(),
 });
 
 const UpdateCategoryValidation = Joi.object({
@@ -22,6 +26,10 @@ const UpdateCategoryValidation = Joi.object({
     .error(
       createHttpError.BadRequest("عنوان دسته بندی وارد شده صحیح نمی باشد")
     ),
+  filename: Joi.string()
+    .pattern(/(\.png|\.jpg|\.webp|\.jpeg|\.gif)$/)
+    .error(createHttpError.BadRequest("فرمت عکس ارسالی صحیح نمی باشد")),
+  fileUploadPath: Joi.allow(),
 });
 
 const CategoryValidation = {
