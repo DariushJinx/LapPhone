@@ -7,14 +7,22 @@ const {
 const { StatusCodes: HttpStatus } = require("http-status-codes");
 const Controller = require("../controller");
 const { default: mongoose } = require("mongoose");
+const {
+  ListOfImagesForRequest,
+  deleteFileInPublic,
+} = require("../../../utils/functions.utils");
 
 class Category extends Controller {
   async addCategory(req, res, next) {
     try {
       const validation = await AddCategoryValidation.validateAsync(req.body);
+      const images = ListOfImagesForRequest(
+        req?.files || [],
+        req.body.fileUploadPath
+      );
       const { title, parent } = validation;
       await this.findCategoryWithTitle(title);
-      const category = await CategoryModel.create({ title, parent });
+      const category = await CategoryModel.create({ title, parent, images });
       if (!category)
         throw createHttpError.InternalServerError(
           "خطای داخلی || دسته بندی مورد نظر ایجاد نشد"
@@ -27,6 +35,7 @@ class Category extends Controller {
         },
       });
     } catch (err) {
+      deleteFileInPublic(req.body.images);
       next(err);
     }
   }
@@ -35,7 +44,7 @@ class Category extends Controller {
     try {
       const categories = await CategoryModel.find(
         { parent: undefined },
-        { __v: 0 }
+        { __v: 0, "children.images": 0 }
       );
       return res.status(HttpStatus.OK).json({
         statusCode: HttpStatus.OK,
@@ -73,13 +82,17 @@ class Category extends Controller {
 
   async updateCategoryTitle(req, res, next) {
     try {
+      const images = ListOfImagesForRequest(
+        req?.files || [],
+        req.body.fileUploadPath
+      );
       const { field } = req.params;
       const validation = await UpdateCategoryValidation.validateAsync(req.body);
       const { title } = validation;
       const category = await this.findCategoryWithTitleOrID(field);
       const updateResult = await CategoryModel.updateOne(
         { _id: category._id },
-        { $set: { title } }
+        { $set: { title, images } }
       );
       if (!updateResult.modifiedCount)
         throw createHttpError.InternalServerError(
@@ -92,6 +105,7 @@ class Category extends Controller {
         },
       });
     } catch (err) {
+      deleteFileInPublic(req.body.images);
       next(err);
     }
   }
