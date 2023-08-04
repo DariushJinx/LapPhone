@@ -3,6 +3,7 @@ const { PERMISSIONS } = require("../../utils/constans.utils");
 const BlogRoutes = require("./blog/blog.routes");
 const CategoryRoutes = require("./category/category.routes");
 const PermissionRoutes = require("./permission/permissioin.routes");
+const ProductRoutes = require("./product/product.routes");
 const RoleRoutes = require("./role/role.routes");
 
 const AdminRoutes = require("express").Router();
@@ -19,5 +20,6 @@ AdminRoutes.use(
   CategoryRoutes
 );
 AdminRoutes.use("/blog", checkPermission([PERMISSIONS.USER]), BlogRoutes);
+AdminRoutes.use("/product", ProductRoutes);
 
 module.exports = AdminRoutes;
