@@ -103,7 +103,14 @@ function deleteFileInPublic(fileAddress) {
   }
 }
 
+async function getComment(model, id) {
+  const findComment = await model.findOne(
+    { "comments._id": id },
+    { "comments.$": 1 }
+  );
 
+  return findComment?.comments?.[0];
+}
 const UtilsFunctions = {
   RandomNumberGenerator,
   SignAccessToken,
@@ -113,6 +120,7 @@ const UtilsFunctions = {
   deleteInvalidPropertyInObject,
   ListOfImagesForRequest,
   deleteFileInPublic,
+  getComment,
 };
 
 module.exports = UtilsFunctions;
