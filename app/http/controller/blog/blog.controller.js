@@ -8,7 +8,9 @@ const {
   deleteFileInPublic,
   copyObject,
   deleteInvalidPropertyInObject,
+  getComment,
 } = require("../../../utils/functions.utils");
+const { default: mongoose } = require("mongoose");
 
 function getID(bookmarks) {
   const book = bookmarks.map((bookmark) => {
@@ -249,6 +251,7 @@ class Blog extends Controller {
         "author",
       ];
       const data = copyObject(req.body);
+      console.log("data : ", data);
       deleteInvalidPropertyInObject(data, blackListFields);
       const updateResult = await BlogModel.updateOne(
         { _id: blog._id },
@@ -364,6 +367,71 @@ class Blog extends Controller {
         statusCode: HttpStatus.OK,
         data: {
           message,
+        },
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async createCommentForBlog(req, res, next) {
+    try {
+      const { blogID } = req.params;
+      const { comment, parent } = req.body;
+      const user = req.user;
+      if (!mongoose.isValidObjectId(blogID))
+        throw createHttpError.BadGateway("شناسه ارسالی مقاله صحیح نمی باشد");
+      await this.findBlogWithID(blogID);
+
+      if (parent && mongoose.isValidObjectId(parent)) {
+        const answerComment = await getComment(BlogModel, parent);
+        let message;
+        if (answerComment && answerComment?.openToComment) {
+          await BlogModel.updateOne(
+            {
+              _id: blogID,
+              "comments._id": parent,
+            },
+            {
+              $push: {
+                "comments.$.answers": {
+                  comment,
+                  user: user._id,
+                  show: false,
+                  openToComment: false,
+                },
+              },
+            }
+          );
+          message = "پاسخ شما با موفقیت ثبت شد";
+        } else message = "پاسخ شما مجاز نیست";
+
+        return res.status(HttpStatus.CREATED).json({
+          statusCode: HttpStatus.CREATED,
+          data: {
+            message,
+          },
+        });
+      } else {
+        await BlogModel.updateOne(
+          { _id: blogID },
+          {
+            $push: {
+              comments: {
+                comment,
+                user: user._id,
+                show: false,
+                openToComment: true,
+              },
+            },
+          }
+        );
+      }
+      return res.status(HttpStatus.CREATED).json({
+        statusCode: HttpStatus.CREATED,
+        data: {
+          message:
+            "پاسخ شما با موفقیت ثبت شد || پس از تایید در سایت قرار میگیرد",
         },
       });
     } catch (err) {
