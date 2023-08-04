@@ -16,6 +16,7 @@ BlogRoutes.patch(
   stringToArray("tags"),
   BlogController.updateBlog
 );
+BlogRoutes.post("/create-comment/:blogID", BlogController.createCommentForBlog);
 
 BlogRoutes.get("/list", BlogController.getAllBlogs);
 BlogRoutes.get("/get-one/:id", BlogController.getOneBlog);
