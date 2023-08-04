@@ -65,6 +65,23 @@
 
 /**
  * @swagger
+ *  components :
+ *      schemas :
+ *          CreateComment :
+ *              type : object
+ *              required :
+ *                  -   comment
+ *              properties :
+ *                  comment :
+ *                      type : string
+ *                      description : the comment for blog
+ *                  parent :
+ *                      type : string
+ *                      description : the id of comment for answers
+ */
+
+/**
+ * @swagger
  *  /admin/blog/add :
  *      post :
  *          tags : [Blog(AdminPanel)]
@@ -222,4 +239,25 @@
  *                      application/json :
  *                          schema :
  *                              $ref : '#/definitions/DeleteAndUpdate'
+ */
+/**
+ * @swagger
+ *  /admin/blog/create-comment/{blogID} :
+ *      post :
+ *          tags : [Blog(AdminPanel)]
+ *          summary : create comment for blog
+ *          parameters :
+ *              -   in : path
+ *                  name : blogID
+ *                  type : string
+ *                  required : true
+ *          requestBody :
+ *              required : true
+ *              content :
+ *                  application/x-www-form-urlencoded :
+ *                      schema :
+ *                          $ref : '#/components/schemas/CreateComment'
+ *          responses :
+ *              200 :
+ *                  description : success - comment created
  */
