@@ -18,6 +18,13 @@ BlogRoutes.patch(
 );
 BlogRoutes.post("/create-comment/:blogID", BlogController.createCommentForBlog);
 
+BlogRoutes.patch(
+  "/remove-comment/:blogID",
+  BlogController.deleteCommentFromBlog
+);
+BlogRoutes.get("/get-comments", BlogController.getAllCommentForBlog);
+BlogRoutes.patch("/show-comment/:blogID", BlogController.showComment);
+
 BlogRoutes.get("/list", BlogController.getAllBlogs);
 BlogRoutes.get("/get-one/:id", BlogController.getOneBlog);
 BlogRoutes.delete("/remove/:id", BlogController.removeBlog);
