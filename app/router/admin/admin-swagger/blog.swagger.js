@@ -82,6 +82,20 @@
 
 /**
  * @swagger
+ *  components :
+ *      schemas :
+ *          CommentID :
+ *              type : object
+ *              required :
+ *                  -   commentID
+ *              properties :
+ *                  commentID :
+ *                      type : string
+ *                      description : the comment id
+ */
+
+/**
+ * @swagger
  *  /admin/blog/add :
  *      post :
  *          tags : [Blog(AdminPanel)]
@@ -260,4 +274,58 @@
  *          responses :
  *              200 :
  *                  description : success - comment created
+ */
+/**
+ * @swagger
+ *  /admin/blog/remove-comment/{blogID} :
+ *      patch :
+ *          tags : [Blog(AdminPanel)]
+ *          summary : remove comment from blog
+ *          parameters :
+ *              -   in : path
+ *                  name : blogID
+ *                  type : string
+ *                  required : true
+ *          requestBody :
+ *              required : true
+ *              content :
+ *                  application/x-www-form-urlencoded :
+ *                      schema :
+ *                          $ref : '#/components/schemas/CreateComment'
+ *          responses :
+ *              200 :
+ *                  description : success - comment removed
+ */
+
+/**
+ * @swagger
+ *  /admin/blog/get-comments :
+ *      get :
+ *          tags : [Blog(AdminPanel)]
+ *          summary : get list of comments for blogs
+ *          responses :
+ *              200 :
+ *                  description  : success
+ */
+/**
+ * @swagger
+ *  /admin/blog/show-comment/{blogID} :
+ *      patch :
+ *          tags : [Blog(AdminPanel)]
+ *          summary : show comment
+
+ *          parameters :
+ *              -   in : path
+ *                  name : blogID
+ *                  type : string
+ *                  required : true
+ *          requestBody : 
+ *              required : true
+ *              content : 
+ *                  application/x-www-form-urlencoded : 
+ *                      schema : 
+ *                          $ref : '#/components/schemas/CommentID'
+ *          responses :
+ *              200 :
+ *                  description  : success
  */
