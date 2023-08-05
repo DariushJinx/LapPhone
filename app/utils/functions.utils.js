@@ -111,6 +111,30 @@ async function getComment(model, id) {
 
   return findComment?.comments?.[0];
 }
+async function getCommentWithComment(model, comment) {
+  const findComment = await model.findOne(
+    { "comments.comment": comment },
+    { "comments.$": 1 }
+  );
+
+  return findComment?.comments?.[0];
+}
+async function getCommentWithID(model, id) {
+  const findComment = await model.findOne(
+    { "comments._id": id },
+    { "comments.$": 1 }
+  );
+
+  return findComment?.comments?.[0];
+}
+async function getAnswerComment(model, comment) {
+  const findComment = await model.findOne(
+    { "comments.answers.comment": comment },
+    { "comments.$": 1 }
+  );
+
+  return findComment?.comments?.[0]?.answers?.[0];
+}
 const UtilsFunctions = {
   RandomNumberGenerator,
   SignAccessToken,
@@ -121,6 +145,8 @@ const UtilsFunctions = {
   ListOfImagesForRequest,
   deleteFileInPublic,
   getComment,
+  getCommentWithComment,
+  getAnswerComment,
 };
 
 module.exports = UtilsFunctions;
