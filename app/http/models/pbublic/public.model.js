@@ -22,7 +22,16 @@ const CommentSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    toJSON: {
+      virtuals: true,
+    },
   }
 );
+
+CommentSchema.virtual("user_details", {
+  ref: "users",
+  localField: "_id",
+  foreignField: "user",
+});
 
 module.exports = CommentSchema;
