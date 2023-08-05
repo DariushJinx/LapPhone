@@ -9,15 +9,10 @@ const {
   copyObject,
   deleteInvalidPropertyInObject,
   getComment,
+  getCommentWithComment,
+  getAnswerComment,
 } = require("../../../utils/functions.utils");
 const { default: mongoose } = require("mongoose");
-
-function getID(bookmarks) {
-  const book = bookmarks.map((bookmark) => {
-    bookmark._id;
-  });
-  return book;
-}
 
 class Blog extends Controller {
   async createBlog(req, res, next) {
@@ -251,7 +246,6 @@ class Blog extends Controller {
         "author",
       ];
       const data = copyObject(req.body);
-      console.log("data : ", data);
       deleteInvalidPropertyInObject(data, blackListFields);
       const updateResult = await BlogModel.updateOne(
         { _id: blog._id },
@@ -382,11 +376,14 @@ class Blog extends Controller {
       if (!mongoose.isValidObjectId(blogID))
         throw createHttpError.BadGateway("شناسه ارسالی مقاله صحیح نمی باشد");
       await this.findBlogWithID(blogID);
-
       if (parent && mongoose.isValidObjectId(parent)) {
         const answerComment = await getComment(BlogModel, parent);
         let message;
-        if (answerComment && answerComment?.openToComment) {
+        if (
+          answerComment &&
+          answerComment?.openToComment &&
+          answerComment._id == parent
+        ) {
           await BlogModel.updateOne(
             {
               _id: blogID,
@@ -439,9 +436,141 @@ class Blog extends Controller {
     }
   }
 
+  async deleteCommentFromBlog(req, res, next) {
+    try {
+      const { blogID } = req.params;
+      const { comment, parent } = req.body;
+      if (!mongoose.isValidObjectId(blogID))
+        throw createHttpError.BadGateway("شناسه ارسالی مقاله صحیح نمی باشد");
+      await this.findBlogWithID(blogID);
+      if (parent && mongoose.isValidObjectId(parent)) {
+        const comments = await getComment(BlogModel, parent);
+        const blogAnswer = await getAnswerComment(BlogModel, comment);
+        let message;
+        if (
+          blogAnswer !== undefined &&
+          blogAnswer.comment == comment &&
+          comments._id == parent
+        ) {
+          await BlogModel.updateOne(
+            { _id: blogID, "comments._id": parent },
+            {
+              $pull: {
+                "comments.$.answers": {
+                  comment,
+                },
+              },
+            }
+          );
+          message = "پاسخ کامنت مورد نظر با موفقیت حذف شد";
+        } else throw createHttpError.NotFound("پاسخ کامنت مورد نظر یافت نشد");
+        return res.status(HttpStatus.OK).json({
+          statusCode: HttpStatus.OK,
+          data: {
+            message,
+          },
+        });
+      } else {
+        const blog = await getCommentWithComment(BlogModel, comment);
+        let message;
+        if (blog !== undefined && blog.comment == comment) {
+          await BlogModel.updateOne(
+            { _id: blogID },
+            {
+              $pull: {
+                comments: {
+                  comment,
+                },
+              },
+            }
+          );
+          message = "کامنت مورد نظر با موفقیت حذف شد";
+        } else throw createHttpError.NotFound("کامنت مورد نظر موجود نمی باشد");
+        return res.status(HttpStatus.OK).json({
+          statusCode: HttpStatus.OK,
+          data: {
+            message,
+          },
+        });
+      }
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async getAllCommentForBlog(req, res, next) {
+    try {
+      const blogs = await BlogModel.aggregate([
+        {
+          $match: {},
+        },
+      ]);
+      let allComments = [];
+      blogs.forEach((blog) => {
+        let mainAnswers = null;
+        blog.comments.forEach((comment) => {
+          comment.answers.forEach((answer) => {
+            mainAnswers = { ...answer };
+          });
+          allComments.push({
+            ...comment,
+            blogName: blog.title,
+          });
+        });
+      });
+      return res.status(HttpStatus.OK).json({
+        statusCode: HttpStatus.OK,
+        data: {
+          message: "تمامی کامنت ها بازگردانی شدند",
+          allComments,
+        },
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async showComment(req, res, next) {
+    try {
+      const { blogID } = req.params;
+      const { commentID } = req.body;
+      const commentDocument = await getComment(BlogModel, commentID);
+      console.log("commentDocument : ", commentDocument);
+      const updateShow = await BlogModel.findOneAndUpdate(
+        { _id: blogID },
+        {
+          $set: {
+            "comments": { show: true },
+          },
+        },
+      { new: true }
+      );
+
+      console.log("updateShow : ", updateShow);
+      // if (!commentDocument.modifiedPaths)
+      //   throw createHttpError.InternalServerError(
+      //     "کامنت مورد نظر به روزرسانی نشد"
+      //   );
+      // return res.status(HttpStatus.OK).json({
+      //   statusCode: HttpStatus.OK,
+      //   data: {
+      //     message: "کامنت مورد نظر به روزرسانی شد",
+      //   },
+      // });
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async findBlogWithID(id) {
     const blog = await BlogModel.findById(id);
     if (!blog) throw createHttpError.NotFound("مقاله مورد نظر یافت نشد");
+    return blog;
+  }
+  async findBlogWithComment(comment) {
+    const blog = await getCommentWithComment(BlogModel, comment);
+    if (blog)
+      throw createHttpError.BadRequest("کامنت مورد نظر از قبل ایجاد شده است");
     return blog;
   }
 }
