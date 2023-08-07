@@ -26,5 +26,11 @@ MenuRoutes.delete(
   checkPermission([PERMISSIONS.ADMIN]),
   MenuController.removeMenu
 );
+MenuRoutes.patch(
+  "/add-submenu/:titleName",
+  verifyAccessToken,
+  checkPermission([PERMISSIONS.ADMIN]),
+  MenuController.createSubmenu
+);
 
 module.exports = MenuRoutes;

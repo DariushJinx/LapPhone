@@ -41,6 +41,30 @@
  *                          schema :
  *                              $ref : '#/definitions/CreateMenu'
  */
+/**
+ * @swagger
+ *  /menu/add-submenu/{titleName} :
+ *      patch :
+ *          tags : [Menu]
+ *          summary : create submenu
+ *          parameters :
+ *              -   in : path
+ *                  name : titleName
+ *                  type : string
+ *                  required : true
+ *          requestBody :
+ *              required : true
+ *              content :
+ *                  application/x-www-form-urlencoded :
+ *                      schema :
+ *                          $ref : '#/components/schemas/CreateMenu'
+ *                  application/json :
+ *                      schema :
+ *                          $ref : '#/components/schemas/CreateMenu'
+ *          responses :
+ *              201 :
+ *                  description : create - submenu created
+ */
 
 /**
  * @swagger
