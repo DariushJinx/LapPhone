@@ -89,7 +89,7 @@ function deleteInvalidPropertyInObject(data = {}, blackList = []) {
 function ListOfImagesForRequest(files, fileUploadPath) {
   if (files?.length > 0) {
     return files
-      .map((file) => path.join(fileUploadPath, file.filename))
+      .map((file) => path.join(`${process.env.BASE_URL}:${process.env.APPLICATION_PORT}/`,fileUploadPath, file.filename))
       .map((item) => item.replace(/\\/g, "/"));
   } else {
     return [];
@@ -135,6 +135,7 @@ async function getAnswerComment(model, comment) {
 
   return findComment?.comments?.[0]?.answers?.[0];
 }
+
 const UtilsFunctions = {
   RandomNumberGenerator,
   SignAccessToken,
