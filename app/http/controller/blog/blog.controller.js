@@ -52,100 +52,147 @@ class Blog extends Controller {
 
   async getAllBlogs(req, res, next) {
     try {
-      const blogs = await BlogModel.aggregate([
-        {
-          $match: {},
-        },
-        {
-          $lookup: {
-            from: "users",
-            foreignField: "_id",
-            localField: "author",
-            as: "author",
+      const blogs = await BlogModel.find({})
+        .populate([
+          {
+            path: "author",
+            select: {
+              first_name: 1,
+              last_name: 1,
+              username: 1,
+              role: 1,
+              _id: 0,
+            },
           },
-        },
-        {
-          $unwind: "$author",
-        },
-        {
-          $lookup: {
-            from: "categories",
-            foreignField: "_id",
-            localField: "category",
-            as: "category",
+          {
+            path: "category",
+            select: { title: 1, _id: 0 },
           },
-        },
-        {
-          $unwind: "$category",
-        },
-        {
-          $lookup: {
-            from: "users",
-            foreignField: "_id",
-            localField: "bookmarks",
-            as: "bookmarks",
+          {
+            path: "likes",
+            select: {
+              first_name: 1,
+              last_name: 1,
+              username: 1,
+              role: 1,
+              _id: 0,
+            },
           },
-        },
-        {
-          $lookup: {
-            from: "users",
-            foreignField: "_id",
-            localField: "likes",
-            as: "likes",
+          {
+            path: "dislikes",
+            select: {
+              first_name: 1,
+              last_name: 1,
+              username: 1,
+              role: 1,
+              _id: 0,
+            },
           },
-        },
-        {
-          $lookup: {
-            from: "users",
-            foreignField: "_id",
-            localField: "dislikes",
-            as: "dislikes",
+          {
+            path: "bookmarks",
+            select: {
+              first_name: 1,
+              last_name: 1,
+              username: 1,
+              role: 1,
+              _id: 0,
+            },
           },
-        },
-        {
-          $project: {
-            "category.__v": 0,
-            "category.parent": 0,
-            "category._id": 0,
-            "author.__v": 0,
-            "author.otp": 0,
-            "author.mobile": 0,
-            "author.role": 0,
-            "author.discount": 0,
-            "author.bills": 0,
-            "author.updatedAt": 0,
-            "author.createdAt": 0,
-            "author.Products": 0,
-            "bookmarks.otp": 0,
-            "bookmarks.__v": 0,
-            "bookmarks.bills": 0,
-            "bookmarks.role": 0,
-            "bookmarks.mobile": 0,
-            "bookmarks.discount": 0,
-            "bookmarks.Products": 0,
-            "bookmarks.updatedAt": 0,
-            "bookmarks.createdAt": 0,
-            "likes.otp": 0,
-            "likes.__v": 0,
-            "likes.bills": 0,
-            "likes.role": 0,
-            "likes.mobile": 0,
-            "likes.discount": 0,
-            "likes.Products": 0,
-            "likes.updatedAt": 0,
-            "likes.createdAt": 0,
-            "dislikes.otp": 0,
-            "dislikes.__v": 0,
-            "dislikes.bills": 0,
-            "dislikes.role": 0,
-            "dislikes.mobile": 0,
-            "dislikes.discount": 0,
-            "dislikes.Products": 0,
-            "dislikes.updatedAt": 0,
-            "dislikes.createdAt": 0,
-          },
-        },
-      ]);
+        ])
+        .lean({ virtuals: true });
+      //   {
+      //     $match: {},
+      //   },
+      //   {
+      //     $lookup: {
+      //       from: "users",
+      //       foreignField: "_id",
+      //       localField: "author",
+      //       as: "author",
+      //     },
+      //   },
+      //   {
+      //     $unwind: "$author",
+      //   },
+      //   {
+      //     $lookup: {
+      //       from: "categories",
+      //       foreignField: "_id",
+      //       localField: "category",
+      //       as: "category",
+      //     },
+      //   },
+      //   {
+      //     $unwind: "$category",
+      //   },
+      //   {
+      //     $lookup: {
+      //       from: "users",
+      //       foreignField: "_id",
+      //       localField: "bookmarks",
+      //       as: "bookmarks",
+      //     },
+      //   },
+      //   {
+      //     $lookup: {
+      //       from: "users",
+      //       foreignField: "_id",
+      //       localField: "likes",
+      //       as: "likes",
+      //     },
+      //   },
+      //   {
+      //     $lookup: {
+      //       from: "users",
+      //       foreignField: "_id",
+      //       localField: "dislikes",
+      //       as: "dislikes",
+      //     },
+      //   },
+      //   {
+      //     $project: {
+      //       "category.__v": 0,
+      //       "category.parent": 0,
+      //       "category._id": 0,
+      //       "author.__v": 0,
+      //       "author.otp": 0,
+      //       "author.mobile": 0,
+      //       "author.role": 0,
+      //       "author.discount": 0,
+      //       "author.bills": 0,
+      //       "author.updatedAt": 0,
+      //       "author.createdAt": 0,
+      //       "author.Products": 0,
+      //       "bookmarks.otp": 0,
+      //       "bookmarks.__v": 0,
+      //       "bookmarks.bills": 0,
+      //       "bookmarks.role": 0,
+      //       "bookmarks.mobile": 0,
+      //       "bookmarks.discount": 0,
+      //       "bookmarks.Products": 0,
+      //       "bookmarks.updatedAt": 0,
+      //       "bookmarks.createdAt": 0,
+      //       "likes.otp": 0,
+      //       "likes.__v": 0,
+      //       "likes.bills": 0,
+      //       "likes.role": 0,
+      //       "likes.mobile": 0,
+      //       "likes.discount": 0,
+      //       "likes.Products": 0,
+      //       "likes.updatedAt": 0,
+      //       "likes.createdAt": 0,
+      //       "dislikes.otp": 0,
+      //       "dislikes.__v": 0,
+      //       "dislikes.bills": 0,
+      //       "dislikes.role": 0,
+      //       "dislikes.mobile": 0,
+      //       "dislikes.discount": 0,
+      //       "dislikes.Products": 0,
+      //       "dislikes.updatedAt": 0,
+      //       "dislikes.createdAt": 0,
+      //     },
+      //   },
+      // ]);
       return res.status(HttpStatus.OK).json({
         statusCode: HttpStatus.OK,
         data: {
@@ -204,6 +251,49 @@ class Blog extends Controller {
         data: {
           message: "مقاله مورد نظر با موفقیت بازگردانده شد",
           blog,
+        },
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async getBlogWithSearch(req, res, next) {
+    try {
+      const { search } = req?.query;
+      const blogSearch = await BlogModel.find({
+        $text: { $search: new RegExp(search, "ig").toString() }
+      })
+        .populate([
+          {
+            path: "author",
+            select: { first_name: 1, last_name: 1, username: 1, role: 1 },
+          },
+          {
+            path: "category",
+            select: { title: 1 },
+          },
+          {
+            path: "likes",
+            select: { first_name: 1, last_name: 1, username: 1, role: 1 },
+          },
+          {
+            path: "dislikes",
+            select: { first_name: 1, last_name: 1, username: 1, role: 1 },
+          },
+          {
+            path: "bookmarks",
+            select: { first_name: 1, last_name: 1, username: 1, role: 1 },
+          },
+        ])
+        .lean();
+      if (!blogSearch)
+        throw createHttpError.NotFound("مقاله مورد نظر یافت نشد");
+      return res.status(HttpStatus.OK).json({
+        statusCode: HttpStatus.OK,
+        data: {
+          message: "مقاله مورد نظر با موفقیت بازگردانی شد",
+          blogSearch,
         },
       });
     } catch (err) {
@@ -363,200 +453,6 @@ class Blog extends Controller {
           message,
         },
       });
-    } catch (err) {
-      next(err);
-    }
-  }
-
-  async createCommentForBlog(req, res, next) {
-    try {
-      const { blogID } = req.params;
-      const { comment, parent } = req.body;
-      const user = req.user;
-      if (!mongoose.isValidObjectId(blogID))
-        throw createHttpError.BadGateway("شناسه ارسالی مقاله صحیح نمی باشد");
-      await this.findBlogWithID(blogID);
-      if (parent && mongoose.isValidObjectId(parent)) {
-        const answerComment = await getComment(BlogModel, parent);
-        let message;
-        if (
-          answerComment &&
-          answerComment?.openToComment &&
-          answerComment._id == parent
-        ) {
-          await BlogModel.updateOne(
-            {
-              _id: blogID,
-              "comments._id": parent,
-            },
-            {
-              $push: {
-                "comments.$.answers": {
-                  comment,
-                  user: user._id,
-                  show: false,
-                  openToComment: false,
-                },
-              },
-            }
-          );
-          message = "پاسخ شما با موفقیت ثبت شد";
-        } else message = "پاسخ شما مجاز نیست";
-
-        return res.status(HttpStatus.CREATED).json({
-          statusCode: HttpStatus.CREATED,
-          data: {
-            message,
-          },
-        });
-      } else {
-        await BlogModel.updateOne(
-          { _id: blogID },
-          {
-            $push: {
-              comments: {
-                comment,
-                user: user._id,
-                show: false,
-                openToComment: true,
-              },
-            },
-          }
-        );
-      }
-      return res.status(HttpStatus.CREATED).json({
-        statusCode: HttpStatus.CREATED,
-        data: {
-          message:
-            "پاسخ شما با موفقیت ثبت شد || پس از تایید در سایت قرار میگیرد",
-        },
-      });
-    } catch (err) {
-      next(err);
-    }
-  }
-
-  async deleteCommentFromBlog(req, res, next) {
-    try {
-      const { blogID } = req.params;
-      const { comment, parent } = req.body;
-      if (!mongoose.isValidObjectId(blogID))
-        throw createHttpError.BadGateway("شناسه ارسالی مقاله صحیح نمی باشد");
-      await this.findBlogWithID(blogID);
-      if (parent && mongoose.isValidObjectId(parent)) {
-        const comments = await getComment(BlogModel, parent);
-        const blogAnswer = await getAnswerComment(BlogModel, comment);
-        let message;
-        if (
-          blogAnswer !== undefined &&
-          blogAnswer.comment == comment &&
-          comments._id == parent
-        ) {
-          await BlogModel.updateOne(
-            { _id: blogID, "comments._id": parent },
-            {
-              $pull: {
-                "comments.$.answers": {
-                  comment,
-                },
-              },
-            }
-          );
-          message = "پاسخ کامنت مورد نظر با موفقیت حذف شد";
-        } else throw createHttpError.NotFound("پاسخ کامنت مورد نظر یافت نشد");
-        return res.status(HttpStatus.OK).json({
-          statusCode: HttpStatus.OK,
-          data: {
-            message,
-          },
-        });
-      } else {
-        const blog = await getCommentWithComment(BlogModel, comment);
-        let message;
-        if (blog !== undefined && blog.comment == comment) {
-          await BlogModel.updateOne(
-            { _id: blogID },
-            {
-              $pull: {
-                comments: {
-                  comment,
-                },
-              },
-            }
-          );
-          message = "کامنت مورد نظر با موفقیت حذف شد";
-        } else throw createHttpError.NotFound("کامنت مورد نظر موجود نمی باشد");
-        return res.status(HttpStatus.OK).json({
-          statusCode: HttpStatus.OK,
-          data: {
-            message,
-          },
-        });
-      }
-    } catch (err) {
-      next(err);
-    }
-  }
-
-  async getAllCommentForBlog(req, res, next) {
-    try {
-      const blogs = await BlogModel.aggregate([
-        {
-          $match: {},
-        },
-      ]);
-      let allComments = [];
-      blogs.forEach((blog) => {
-        let mainAnswers = null;
-        blog.comments.forEach((comment) => {
-          comment.answers.forEach((answer) => {
-            mainAnswers = { ...answer };
-          });
-          allComments.push({
-            ...comment,
-            blogName: blog.title,
-          });
-        });
-      });
-      return res.status(HttpStatus.OK).json({
-        statusCode: HttpStatus.OK,
-        data: {
-          message: "تمامی کامنت ها بازگردانی شدند",
-          allComments,
-        },
-      });
-    } catch (err) {
-      next(err);
-    }
-  }
-
-  async showComment(req, res, next) {
-    try {
-      const { blogID } = req.params;
-      const { commentID } = req.body;
-      const commentDocument = await getComment(BlogModel, commentID);
-      console.log("commentDocument : ", commentDocument);
-      const updateShow = await BlogModel.findOneAndUpdate(
-        { _id: blogID },
-        {
-          $set: {
-            "comments": { show: true },
-          },
-        },
-      { new: true }
-      );
-
-      console.log("updateShow : ", updateShow);
-      // if (!commentDocument.modifiedPaths)
-      //   throw createHttpError.InternalServerError(
-      //     "کامنت مورد نظر به روزرسانی نشد"
-      //   );
-      // return res.status(HttpStatus.OK).json({
-      //   statusCode: HttpStatus.OK,
-      //   data: {
-      //     message: "کامنت مورد نظر به روزرسانی شد",
-      //   },
-      // });
     } catch (err) {
       next(err);
     }
