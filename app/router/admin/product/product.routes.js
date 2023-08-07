@@ -31,8 +31,4 @@ ProductRoutes.get("/:field", ProductController.getOneProduct);
 ProductRoutes.get("/like/:productID", ProductController.likedProduct);
 ProductRoutes.get("/dislike/:productID", ProductController.dislikedProduct);
 ProductRoutes.get("/bookmark/:productID", ProductController.bookmarkedProduct);
-ProductRoutes.post(
-  "/create-comment/:productID",
-  ProductController.createCommentForProduct
-);
 module.exports = ProductRoutes;
