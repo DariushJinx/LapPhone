@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-const CommentSchema = require("../pbublic/public.model");
-
 const FeatureSchema = new mongoose.Schema({
   feature_title: { type: String, required: true },
   feature_description: { type: String, required: true },
@@ -18,8 +16,11 @@ const ProductSchema = new mongoose.Schema(
     short_text: { type: String, required: true },
     images: { type: [String], required: true },
     tags: { type: [String], default: [] },
-    category: { type: mongoose.Types.ObjectId, ref: "users", required: true },
-    comments: { type: [CommentSchema], default: [] },
+    category: {
+      type: mongoose.Types.ObjectId,
+      ref: "categories",
+      required: true,
+    },
     likes: { type: [mongoose.Types.ObjectId], ref: "users", default: [] },
     dislikes: { type: [mongoose.Types.ObjectId], ref: "users", default: [] },
     bookmarks: { type: [mongoose.Types.ObjectId], ref: "users", default: [] },
@@ -44,12 +45,6 @@ ProductSchema.index({
   text: "text",
   short_text: "text",
   tags: "text",
-});
-
-ProductSchema.virtual("imagesURL").get(function () {
-  return this.images.map((image) => {
-    return `${process.env.BASE_URL}:${process.env.APPLICATION_PORT}/${image}`;
-  });
 });
 
 const ProductModel = mongoose.model("products", ProductSchema);
