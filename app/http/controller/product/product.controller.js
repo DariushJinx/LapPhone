@@ -195,7 +195,54 @@ class Product extends Controller {
 
   async listOfProduct(req, res, next) {
     try {
-      const products = await ProductModel.aggregate([{ $match: {} }]);
+      const products = await ProductModel.find({})
+        .populate([
+          {
+            path: "supplier",
+            select: {
+              first_name: 1,
+              last_name: 1,
+              username: 1,
+              role: 1,
+              _id: 0,
+            },
+          },
+          {
+            path: "category",
+            select: { title: 1, _id: 0 },
+          },
+          {
+            path: "likes",
+            select: {
+              first_name: 1,
+              last_name: 1,
+              username: 1,
+              role: 1,
+              _id: 0,
+            },
+          },
+          {
+            path: "dislikes",
+            select: {
+              first_name: 1,
+              last_name: 1,
+              username: 1,
+              role: 1,
+              _id: 0,
+            },
+          },
+          {
+            path: "bookmarks",
+            select: {
+              first_name: 1,
+              last_name: 1,
+              username: 1,
+              role: 1,
+              _id: 0,
+            },
+          },
+        ])
+        .lean();
       return res.status(HttpStatus.OK).json({
         statusCode: HttpStatus.OK,
         data: {
@@ -212,11 +259,32 @@ class Product extends Controller {
       const search = req?.query?.search;
       let products;
       if (search) {
-        products = await ProductModel.aggregate([
-          {
-            $match: { $text: { $search: new RegExp(search, "ig").toString() } },
-          },
-        ]);
+        products = await ProductModel.find({
+          $text: { $search: new RegExp(search, "ig").toString() },
+        })
+          .populate([
+            {
+              path: "supplier",
+              select: { first_name: 1, last_name: 1, username: 1, role: 1 },
+            },
+            {
+              path: "category",
+              select: { title: 1, _id: 0 },
+            },
+            {
+              path: "likes",
+              select: { first_name: 1, last_name: 1, username: 1, role: 1 },
+            },
+            {
+              path: "dislikes",
+              select: { first_name: 1, last_name: 1, username: 1, role: 1 },
+            },
+            {
+              path: "bookmarks",
+              select: { first_name: 1, last_name: 1, username: 1, role: 1 },
+            },
+          ])
+          .lean();
       }
       return res.status(HttpStatus.OK).json({
         statusCode: HttpStatus.OK,
@@ -346,83 +414,6 @@ class Product extends Controller {
       next(err);
     }
   }
-
-  async createCommentForProduct(req, res, next) {
-    try {
-      const { productID } = req.params;
-      const user = req.user;
-      const { comment, parent } = req.body;
-      if (!mongoose.isValidObjectId(productID))
-        throw createHttpError.BadGateway("شناسه محصول مورد نظر صحیح نمی باشد");
-      if (parent && mongoose.isValidObjectId(parent)) {
-        const answerComment = await getComment(ProductModel, parent);
-        let message;
-        if (answerComment && answerComment?.openToComment) {
-          await ProductModel.updateOne(
-            {
-              _id: productID,
-              "comments._id": parent,
-            },
-            {
-              $push: {
-                "comments.$.answers": {
-                  comment,
-                  user: user._id,
-                  show: false,
-                  openToComment: false,
-                },
-              },
-            }
-          );
-          message = "پاسخ شما با موفقیت ثبت شد";
-        } else message = "پاسخ شما مجاز نیست";
-
-        return res.status(HttpStatus.CREATED).json({
-          statusCode: HttpStatus.CREATED,
-          data: {
-            message,
-          },
-        });
-      } else {
-        await ProductModel.updateOne(
-          { _id: productID },
-          {
-            $push: {
-              comments: {
-                comment,
-                user: user._id,
-                show: false,
-                openToComment: true,
-              },
-            },
-          }
-        );
-      }
-      return res.status(HttpStatus.CREATED).json({
-        statusCode: HttpStatus.CREATED,
-        data: {
-          message:
-            "کامنت شما با موفقیت ثبت شد || پس از تایید در وبسایت قرار میگیرد",
-        },
-      });
-    } catch (err) {
-      next(err);
-    }
-  }
-
-  // async findFeatureInProduct(field, featureTitle) {
-  //   const findResult = await ProductModel.findOne(
-  //     {
-  //       _id: field,
-  //       "features.feature_detail.map((item) => item.feature_title)":
-  //         featureTitle,
-  //     },
-  //     { "features.$": 1 }
-  //   );
-  //   const userDetail = copyObject(findResult);
-  //   console.log("userDetail : ", userDetail);
-  //   return userDetail?.features?.feature_detail?.[0];
-  // }
 
   async findFeatureInProduct(field, featureTitle) {
     const findResult = await ProductModel.findOne(
