@@ -16,20 +16,12 @@ BlogRoutes.patch(
   stringToArray("tags"),
   BlogController.updateBlog
 );
-BlogRoutes.post("/create-comment/:blogID", BlogController.createCommentForBlog);
-
-BlogRoutes.patch(
-  "/remove-comment/:blogID",
-  BlogController.deleteCommentFromBlog
-);
-BlogRoutes.get("/get-comments", BlogController.getAllCommentForBlog);
-BlogRoutes.patch("/show-comment/:blogID", BlogController.showComment);
-
 BlogRoutes.get("/list", BlogController.getAllBlogs);
 BlogRoutes.get("/get-one/:id", BlogController.getOneBlog);
 BlogRoutes.delete("/remove/:id", BlogController.removeBlog);
 BlogRoutes.get("/bookmark/:blogID", BlogController.bookmarkedBlogWithBlogID);
 BlogRoutes.get("/like/:blogID", BlogController.likedBlog);
 BlogRoutes.get("/dislike/:blogID", BlogController.dislikedBlog);
+BlogRoutes.get("/search", BlogController.getBlogWithSearch);
 
 module.exports = BlogRoutes;
