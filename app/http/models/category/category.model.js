@@ -18,25 +18,11 @@ const CategorySchema = new mongoose.Schema(
   }
 );
 
-CategorySchema.virtual("imagesURL").get(function () {
-  return this.images.map(
-    (image) =>
-      `${process.env.BASE_URL}:${process.env.APPLICATION_PORT}/${image}`
-  );
-});
-
 CategorySchema.virtual("children", {
   ref: "categories",
   localField: "_id",
   foreignField: "parent",
 });
-
-function autoPopulate(next) {
-  this.populate([{ path: "children", select: { __v: 0, id: 0 } }]);
-  next();
-}
-
-CategorySchema.pre("findOne", autoPopulate).pre("find", autoPopulate);
 
 const CategoryModel = mongoose.model("categories", CategorySchema);
 
