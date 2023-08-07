@@ -20,6 +20,7 @@ class Category extends Controller {
         req?.files || [],
         req.body.fileUploadPath
       );
+
       const { title, parent } = validation;
       await this.findCategoryWithTitle(title);
       const category = await CategoryModel.create({ title, parent, images });
@@ -42,10 +43,14 @@ class Category extends Controller {
 
   async getAllCategories(req, res, next) {
     try {
-      const categories = await CategoryModel.find(
-        { parent: undefined },
-        { __v: 0, "children.images": 0 }
-      );
+      const categories = await CategoryModel.find({ parent: undefined })
+        .populate([
+          {
+            path: "children",
+            select: { parent: 1, title: 1, _id: 0 },
+          },
+        ])
+        .lean();
       return res.status(HttpStatus.OK).json({
         statusCode: HttpStatus.OK,
         data: {
@@ -152,7 +157,7 @@ class Category extends Controller {
       const children = await CategoryModel.find(
         { parent },
         { __v: 0, parent: 0 }
-      );
+      ).lean();
       return res.status(HttpStatus.OK).json({
         statusCode: HttpStatus.OK,
         data: {
