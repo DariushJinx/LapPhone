@@ -119,17 +119,6 @@
  *                  feature_description :
  *                      type : string
  *                      description : add description for feature
- *          CreateComment :
- *              type : object
- *              required :
- *                  -   comment
- *              properties :
- *                  comment :
- *                      type : string
- *                      description : create comment for product
- *                  parent :
- *                      type : string
- *                      description : the id of product
  *
  */
 
@@ -312,7 +301,7 @@
  *              200 :
  *                  description : success
  */
-/**
+
  * @swagger
  *  /admin/product/create-comment/{productID} :
  *      post :
