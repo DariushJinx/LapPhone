@@ -30,6 +30,36 @@ class Menu extends Controller {
     }
   }
 
+  async createSubmenu(req, res, next) {
+    try {
+      const { titleName } = req.params;
+      const validation = await MenuValidation.validateAsync(req.body);
+      const { title } = validation;
+      await this.findMenuWithTitle(title);
+      const submenu = await MenuModel.findOneAndUpdate(
+        { title: titleName },
+        {
+          $push: {
+            submenu: {
+              title,
+            },
+          },
+        }
+      );
+      if (!submenu)
+        throw createHttpError.InternalServerError("زیر منو مورد نظر ایجاد نشد");
+      return res.status(HttpStatus.CREATED).json({
+        statusCode: HttpStatus.CREATED,
+        data: {
+          message: "زیر منو مورد نظر با موفقیت ایجاد شد",
+          submenu,
+        },
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async getListOfMenus(req, res, next) {
     try {
       const menus = await MenuModel.find({ __v: 0 });
