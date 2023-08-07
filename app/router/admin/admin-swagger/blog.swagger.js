@@ -65,37 +65,6 @@
 
 /**
  * @swagger
- *  components :
- *      schemas :
- *          CreateComment :
- *              type : object
- *              required :
- *                  -   comment
- *              properties :
- *                  comment :
- *                      type : string
- *                      description : the comment for blog
- *                  parent :
- *                      type : string
- *                      description : the id of comment for answers
- */
-
-/**
- * @swagger
- *  components :
- *      schemas :
- *          CommentID :
- *              type : object
- *              required :
- *                  -   commentID
- *              properties :
- *                  commentID :
- *                      type : string
- *                      description : the comment id
- */
-
-/**
- * @swagger
  *  /admin/blog/add :
  *      post :
  *          tags : [Blog(AdminPanel)]
@@ -148,6 +117,21 @@
  *                      application/json :
  *                          schema :
  *                              $ref : '#/definitions/CreateBlog'
+ */
+/**
+ * @swagger
+ *  /admin/blog/search :
+ *      get :
+ *          tags : [Blog(AdminPanel)]
+ *          summary : get one blog with search query
+ *          parameters :
+ *              -   in : query
+ *                  name : search
+ *                  type : string
+ *                  description : search in blog with title text short_text
+ *          responses :
+ *              200 :
+ *                  description : success
  */
 
 /**
@@ -253,79 +237,4 @@
  *                      application/json :
  *                          schema :
  *                              $ref : '#/definitions/DeleteAndUpdate'
- */
-/**
- * @swagger
- *  /admin/blog/create-comment/{blogID} :
- *      post :
- *          tags : [Blog(AdminPanel)]
- *          summary : create comment for blog
- *          parameters :
- *              -   in : path
- *                  name : blogID
- *                  type : string
- *                  required : true
- *          requestBody :
- *              required : true
- *              content :
- *                  application/x-www-form-urlencoded :
- *                      schema :
- *                          $ref : '#/components/schemas/CreateComment'
- *          responses :
- *              200 :
- *                  description : success - comment created
- */
-/**
- * @swagger
- *  /admin/blog/remove-comment/{blogID} :
- *      patch :
- *          tags : [Blog(AdminPanel)]
- *          summary : remove comment from blog
- *          parameters :
- *              -   in : path
- *                  name : blogID
- *                  type : string
- *                  required : true
- *          requestBody :
- *              required : true
- *              content :
- *                  application/x-www-form-urlencoded :
- *                      schema :
- *                          $ref : '#/components/schemas/CreateComment'
- *          responses :
- *              200 :
- *                  description : success - comment removed
- */
-
-/**
- * @swagger
- *  /admin/blog/get-comments :
- *      get :
- *          tags : [Blog(AdminPanel)]
- *          summary : get list of comments for blogs
- *          responses :
- *              200 :
- *                  description  : success
- */
-/**
- * @swagger
- *  /admin/blog/show-comment/{blogID} :
- *      patch :
- *          tags : [Blog(AdminPanel)]
- *          summary : show comment
-
- *          parameters :
- *              -   in : path
- *                  name : blogID
- *                  type : string
- *                  required : true
- *          requestBody : 
- *              required : true
- *              content : 
- *                  application/x-www-form-urlencoded : 
- *                      schema : 
- *                          $ref : '#/components/schemas/CommentID'
- *          responses :
- *              200 :
- *                  description  : success
  */
