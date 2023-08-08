@@ -99,7 +99,7 @@ class Blog extends Controller {
             },
           },
         ])
-        .lean({ virtuals: true });
+        .lean();
       //   {
       //     $match: {},
       //   },
