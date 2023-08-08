@@ -8,6 +8,7 @@ const createHttpError = require("http-errors");
 const redisClient = require("./initRedis.utils");
 const path = require("path");
 const fs = require("fs");
+const ProductModel = require("../http/models/product/product.model");
 
 function RandomNumberGenerator() {
   return ~~(Math.random() * 90000 + 10000);
@@ -89,7 +90,13 @@ function deleteInvalidPropertyInObject(data = {}, blackList = []) {
 function ListOfImagesForRequest(files, fileUploadPath) {
   if (files?.length > 0) {
     return files
-      .map((file) => path.join(`${process.env.BASE_URL}:${process.env.APPLICATION_PORT}/`,fileUploadPath, file.filename))
+      .map((file) =>
+        path.join(
+          `${process.env.BASE_URL}:${process.env.APPLICATION_PORT}/`,
+          fileUploadPath,
+          file.filename
+        )
+      )
       .map((item) => item.replace(/\\/g, "/"));
   } else {
     return [];
@@ -119,14 +126,6 @@ async function getCommentWithComment(model, comment) {
 
   return findComment?.comments?.[0];
 }
-async function getCommentWithID(model, id) {
-  const findComment = await model.findOne(
-    { "comments._id": id },
-    { "comments.$": 1 }
-  );
-
-  return findComment?.comments?.[0];
-}
 async function getAnswerComment(model, comment) {
   const findComment = await model.findOne(
     { "comments.answers.comment": comment },
@@ -134,6 +133,91 @@ async function getAnswerComment(model, comment) {
   );
 
   return findComment?.comments?.[0]?.answers?.[0];
+}
+
+async function checkExistProduct(id) {
+  const product = await ProductModel.findById(id);
+  if (!product) throw createHttpError.NotFound("محصول مورد نظر یافت نشد");
+  return product;
+}
+
+async function getBasketOfUser(userID, discount = {}) {
+  const userDetail = await UserModel.aggregate([
+    {
+      $match: { _id: userID },
+    },
+    {
+      $project: { basket: 1 },
+    },
+    {
+      $lookup: {
+        from: "products",
+        localField: "basket.products.productID",
+        foreignField: "_id",
+        as: "productDetail",
+      },
+    },
+    
+    {
+      $addFields: {
+        productDetail: {
+          $function: {
+            body: function (productDetail, products) {
+              return productDetail.map(function (product) {
+                const count = products.find(
+                  (item) => item.productID.valueOf() == product._id.valueOf()
+                ).count;
+                const totalPrice = count * product.price;
+                return {
+                  ...product,
+                  basketCount: count,
+                  totalPrice,
+                  finalPrice:
+                    totalPrice - (product.discount / 100) * totalPrice,
+                };
+              });
+            },
+            args: ["$productDetail", "$basket.products"],
+            lang: "js",
+          },
+        },
+        payDetail: {
+          $function: {
+            body: function (productDetail, products) {
+              const productAmount = productDetail.reduce(function (
+                total,
+                product
+              ) {
+                const count = products.find(
+                  (item) => item.productID.valueOf() == product._id.valueOf()
+                ).count;
+                const totalPrice = count * product.price;
+                return (
+                  total + (totalPrice - (product.discount / 100) * totalPrice)
+                );
+              },
+              0);
+
+              const productIds = productDetail.map((product) =>
+                product._id.valueOf()
+              );
+              return {
+                productAmount,
+                paymentAmount:  productAmount,
+                productIds,
+              };
+            },
+            args: ["$productDetail", "$basket.products"],
+            lang: "js",
+          },
+        },
+      },
+    },
+    {
+      $project: { basket: 0 },
+    },
+  ])
+  return copyObject(userDetail);
 }
 
 const UtilsFunctions = {
@@ -148,6 +232,8 @@ const UtilsFunctions = {
   getComment,
   getCommentWithComment,
   getAnswerComment,
+  checkExistProduct,
+  getBasketOfUser,
 };
 
 module.exports = UtilsFunctions;
