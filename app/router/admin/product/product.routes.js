@@ -16,7 +16,7 @@ ProductRoutes.patch(
   "/add-features/:field",
   ProductController.addFeaturesForProduct
 );
-ProductRoutes.delete(
+ProductRoutes.patch(
   "/remove-feature/:productID",
   ProductController.removeFeature
 );
