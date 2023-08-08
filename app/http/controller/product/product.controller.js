@@ -4,7 +4,6 @@ const {
   deleteFileInPublic,
   copyObject,
   deleteInvalidPropertyInObject,
-  getComment,
 } = require("../../../utils/functions.utils");
 const ProductModel = require("../../models/product/product.model");
 const {
@@ -98,25 +97,33 @@ class Product extends Controller {
   async removeFeature(req, res, next) {
     try {
       const { productID } = req.params;
+      const { title } = req.body;
       const product = await ProductModel.findById(productID);
-      const updateResult = await ProductModel.updateOne(
-        { _id: product._id },
-        {
-          $pull: {
-            "features.feature_detail": product.features.feature_detail[0],
-          },
-        }
-      );
-      if (!updateResult.modifiedCount)
+      if (!product) throw createHttpError.NotFound("محصول مورد نظر یافت نشد");
+      const feature = await findFeatureInFeatures(productID, title);
+
+      if (feature?.feature_title !== title) {
         throw createHttpError.InternalServerError(
-          "حذف ویژگی محصول مورد نظر با موفقیت انجام نشد"
+          "حذف ویژگی محصول مورد نظر انجام نشد"
         );
-      return res.status(HttpStatus.OK).json({
-        statusCode: HttpStatus.OK,
-        data: {
-          message: "حذف ویژگی محصول مورد نظر با موفقیت انجام شد",
-        },
-      });
+      } else {
+        await ProductModel.updateOne(
+          { _id: productID },
+          {
+            $pull: {
+              "features.feature_detail": {
+                feature_title: title,
+              },
+            },
+          }
+        );
+        return res.status(HttpStatus.OK).json({
+          statusCode: HttpStatus.OK,
+          data: {
+            message: "حذف ویژگی محصول مورد نظر با موفقیت انجام شد",
+          },
+        });
+      }
     } catch (err) {
       next(err);
     }
@@ -415,15 +422,6 @@ class Product extends Controller {
     }
   }
 
-  async findFeatureInProduct(field, featureTitle) {
-    const findResult = await ProductModel.findOne(
-      { _id: field, "features.feature_detail.feature_title": featureTitle },
-      { "features.$": 1 }
-    );
-    const userDetail = copyObject(findResult);
-    return userDetail?.features?.feature_detail?.[0];
-  }
-
   async findProductWitId(id) {
     const product = await ProductModel.findById(id);
     if (!product) throw createHttpError.NotFound("محصول مورد نظر یافت نشد");
@@ -438,6 +436,15 @@ class Product extends Controller {
     if (!product) throw createHttpError.NotFound("محصول مورد نظر یافت نشد");
     return product;
   }
+}
+
+async function findFeatureInFeatures(productID, title) {
+  const findResult = await ProductModel.findOne(
+    { _id: productID, "features.feature_detail.feature_title": title },
+    { "features.feature_detail.$": 1 }
+  );
+  const userDetail = copyObject(findResult);
+  return userDetail?.features?.feature_detail?.[0];
 }
 
 const ProductController = new Product();
