@@ -9,13 +9,13 @@ const BasketSchema = new mongoose.Schema({
   products: { type: [ProductSchema], default: [] },
 });
 
-const UserSchema = new mongoose.Schema(
+const schema = new mongoose.Schema(
   {
     first_name: { type: String },
     last_name: { type: String },
     username: { type: String, lowercase: true },
-    email: { type: String, lowercase: true },
     mobile: { type: String, required: true, unique: true },
+    email: { type: String, lowercase: true },
     password: { type: String },
     otp: {
       type: Object,
@@ -27,6 +27,7 @@ const UserSchema = new mongoose.Schema(
     bills: { type: [], default: [] },
     discount: { type: Number, default: 0 },
     birthday: { type: String },
+    token: { type: String, default: "" },
     role: { type: String, enum: ["USER", "ADMIN"], default: "USER" },
     Products: { type: [mongoose.Types.ObjectId], ref: "products", default: [] },
     basket: { type: BasketSchema },
@@ -39,7 +40,9 @@ const UserSchema = new mongoose.Schema(
   }
 );
 
-UserSchema.index({
+const userSchema = schema;
+
+userSchema.index({
   first_name: "text",
   last_name: "text",
   username: "text",
@@ -47,6 +50,5 @@ UserSchema.index({
   email: "text",
 });
 
-const UserModel = mongoose.model("users", UserSchema);
-
+const UserModel = mongoose.model("users", userSchema);
 module.exports = UserModel;
