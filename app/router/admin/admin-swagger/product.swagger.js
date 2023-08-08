@@ -121,6 +121,20 @@
  *                      description : add description for feature
  *
  */
+/**
+ * @swagger
+ *  components :
+ *      schemas :
+ *          RemoveFeature :
+ *              type : object
+ *              required :
+ *                  -   title
+ *              properties :
+ *                  title :
+ *                      type : string
+ *                      description : title for feature
+ *
+ */
 
 /**
  * @swagger
@@ -192,7 +206,7 @@
 /**
  * @swagger
  *  /admin/product/remove-feature/{productID} :
- *      delete :
+ *      patch :
  *          tags : [Product(AdminPanel)]
  *          summary : add features for products
  *          parameters :
@@ -200,6 +214,15 @@
  *                  name : productID
  *                  type : string
  *                  required : true'
+ *          requestBody :
+ *              required : true
+ *              content :
+ *                  application/x-www-form-urlencoded :
+ *                      schema :
+ *                          $ref : '#/components/schemas/RemoveFeature'
+ *                  application/json :
+ *                      schema :
+ *                          $ref : '#/components/schemas/RemoveFeature'
  *          responses :
  *              200 :
  *                  description : success
@@ -297,30 +320,6 @@
  *                  name : productID
  *                  type : string
  *                  required : true
- *          responses :
- *              200 :
- *                  description : success
- */
-
- * @swagger
- *  /admin/product/create-comment/{productID} :
- *      post :
- *          tags : [Product(AdminPanel)]
- *          summary : bookmark product
- *          parameters :
- *              -   in : path
- *                  name : productID
- *                  type : string
- *                  required : true
- *          requestBody :
- *              required : true
- *              content :
- *                  application/x-www-form-urlencoded :
- *                      schema :
- *                          $ref : '#/components/schemas/CreateComment'
- *                  application/json :
- *                      schema :
- *                          $ref : '#/components/schemas/CreateComment'
  *          responses :
  *              200 :
  *                  description : success
