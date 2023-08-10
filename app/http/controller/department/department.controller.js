@@ -47,7 +47,7 @@ class Department {
       next(err);
     }
   }
-  
+
   async updateDepartment(req, res, next) {
     try {
       const { field } = req.params;
@@ -70,6 +70,23 @@ class Department {
         statusCode: HttpStatus.OK,
         data: {
           message: "دپارتمانت مورد نظر با موفقیت به روزرسانی شد",
+        },
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async listOfDepartments(req, res, next) {
+    try {
+      const list = await DepartmentModel.find({}, { title: 1 }).lean();
+      if (!list)
+        throw createHttpError.NotFound("لیستی از دپارتمانت ها یافت نشد");
+      return res.status(HttpStatus.OK).json({
+        statusCode: HttpStatus.OK,
+        data: {
+          message: "لیست موجود از دپارتمانت ها با موفقیت بازگردانی شدند",
+          list,
         },
       });
     } catch (err) {
