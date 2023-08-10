@@ -3,6 +3,8 @@ const DepartmentController = require("../../../http/controller/department/depart
 const DepartmentRoutes = require("express").Router();
 
 DepartmentRoutes.post("/add", DepartmentController.createDepartment);
+DepartmentRoutes.get("/list", DepartmentController.listOfDepartments);
+
 DepartmentRoutes.delete(
   "/remove/:field",
   DepartmentController.removeDepartment
