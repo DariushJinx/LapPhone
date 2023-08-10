@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const DepartmentSubSchema = new mongoose.Schema(
   {
     title: { type: String, ref: "products" },
-    parent: { type: mongoose.Types.ObjectId, ref: "users" },
+    parent: { type: mongoose.Types.ObjectId, ref: "departments" },
   },
   { timestamps: true }
 );
