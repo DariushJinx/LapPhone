@@ -1,4 +1,4 @@
-const mongoose = required("mongoose");
+const mongoose = require("mongoose");
 
 const TicketSchema = new mongoose.Schema(
   {
@@ -50,6 +50,7 @@ const TicketSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
 
 const TicketModel = mongoose.model("tickets", TicketSchema);
 
