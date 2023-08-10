@@ -1,5 +1,6 @@
 const Joi = require("@hapi/joi");
 const createHttpError = require("http-errors");
+const { MongoIDPattern } = require("../../../utils/constans.utils");
 
 const createTicket = Joi.object({
   departmentID: Joi.string().error(
@@ -19,11 +20,11 @@ const createTicket = Joi.object({
   priority: Joi.number().error(
     createHttpError.BadRequest("اولوبت وارد شده برای تیکت صحیح نمی باشد")
   ),
-  priority: Joi.string(),
+  product: Joi.string(),
 });
 
 const getAnswer = Joi.object({
-  id: Joi.string().error(
+  id: Joi.string().pattern(MongoIDPattern).error(
     createHttpError.BadRequest("شناسه وارد شده برای گرفتن پاسخ صحیح نمی باشد")
   ),
 });
@@ -33,7 +34,7 @@ const setAnswer = Joi.object({
       "توضیحات وارد شده برای پاسخ به  تیکت صحیح نمی باشد"
     )
   ),
-  ticketId: Joi.string().error(
+  ticketID: Joi.string().error(
     createHttpError.BadRequest("شناسه وارد شده برای پاسخ به تیکت صحیح نمی باشد")
   ),
 });
