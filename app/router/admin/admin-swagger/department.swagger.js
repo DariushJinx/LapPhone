@@ -31,6 +31,18 @@
  *              201 :
  *                  description : create - department created
  */
+
+/**
+ * @swagger
+ *  /admin/department/list :
+ *      get :
+ *          tags : [Department]
+ *          summary : get list of departments
+ *          responses :
+ *              200 :
+ *                  description : success
+ */
+
 /**
  * @swagger
  *  /admin/department/update/{field} :
