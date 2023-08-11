@@ -30,6 +30,10 @@
  *          responses :
  *              201 :
  *                  description : create - department created
+ *                  content : 
+ *                      application/json :
+ *                          schema :
+ *                              $ref : '#/definitions/Department'
  */
 
 /**
@@ -41,6 +45,10 @@
  *          responses :
  *              200 :
  *                  description : success
+ *                  content : 
+ *                      application/json :
+ *                          schema :
+ *                              $ref : '#/definitions/DepartmentList'
  */
 
 /**
@@ -65,7 +73,11 @@
  *                          $ref : '#/components/schemas/CreateDepartment'
  *          responses :
  *              201 :
- *                  description : create - department created
+ *                  description : success - department updated
+ *                  content : 
+ *                      application/json :
+ *                          schema :
+ *                              $ref : '#/definitions/DeleteAndUpdate'
  */
 
 /**
@@ -82,4 +94,8 @@
  *          responses :
  *              200 :
  *                  description : success - department removed
+ *                  content : 
+ *                      application/json :
+ *                          schema :
+ *                              $ref : '#/definitions/DeleteAndUpdate'
  */
