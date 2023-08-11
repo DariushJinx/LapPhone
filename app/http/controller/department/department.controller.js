@@ -79,7 +79,8 @@ class Department {
 
   async listOfDepartments(req, res, next) {
     try {
-      const list = await DepartmentModel.find({}, { title: 1 }).lean();
+      const list = await DepartmentModel.find({}, { title: 1 })
+        .lean();
       if (!list)
         throw createHttpError.NotFound("لیستی از دپارتمانت ها یافت نشد");
       return res.status(HttpStatus.OK).json({
