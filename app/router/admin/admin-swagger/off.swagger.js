@@ -71,6 +71,10 @@
  *          responses :
  *              201 :
  *                  description : create - off created
+ *                  content : 
+ *                      application/json :
+ *                          schema :
+ *                              $ref : '#/definitions/CreateOff'
  */
 /**
  * @swagger
@@ -90,6 +94,10 @@
  *          responses :
  *              201 :
  *                  description : create - set discount
+ *                  content : 
+ *                      application/json :
+ *                          schema :
+ *                              $ref : '#/definitions/SetAll'
  */
 /**
  * @swagger
@@ -114,6 +122,10 @@
  *          responses :
  *              200 :
  *                  description : success
+ *                  content : 
+ *                      application/json :
+ *                          schema :
+ *                              $ref : '#/definitions/getOff'
  */
 
 /**
@@ -125,6 +137,10 @@
  *          responses :
  *              200 :
  *                  description : success
+ *                  content : 
+ *                      application/json :
+ *                          schema :
+ *                              $ref : '#/definitions/ListOff'
  */
 
 /**
@@ -141,4 +157,8 @@
  *          responses :
  *              200 :
  *                  description : success - code removed
+ *                  content : 
+ *                      application/json :
+ *                          schema :
+ *                              $ref : '#/definitions/DeleteAndUpdate'
  */
