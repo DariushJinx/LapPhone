@@ -54,6 +54,10 @@
  *          responses :
  *              201 :
  *                  description : create - contact created
+ *                  content : 
+ *                      application/json :
+ *                          schema :
+ *                              $ref : '#/definitions/Contact'
  */
 /**
  * @swagger
@@ -73,6 +77,10 @@
  *          responses :
  *              200 :
  *                  description : create - email send
+ *                  content : 
+ *                      application/json :
+ *                          schema :
+ *                              $ref : '#/definitions/AnswerContact'
  */
 
 /**
@@ -84,6 +92,10 @@
  *          responses :
  *              200 :
  *                  description : success
+ *                  content : 
+ *                      application/json :
+ *                          schema :
+ *                              $ref : '#/definitions/Contact'
  */
 /**
  * @swagger
@@ -99,4 +111,8 @@
  *          responses :
  *              200 :
  *                  description : success - contact removed
+ *                  content : 
+ *                      application/json :
+ *                          schema :
+ *                              $ref : '#/definitions/DeleteAndUpdate'
  */
