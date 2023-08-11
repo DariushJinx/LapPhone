@@ -62,12 +62,10 @@
  *          responses :
  *              201 :
  *                  description : Success - Created
- *              400 :
- *                  description : Bad Request
- *              401 :
- *                  description : UnAuthorization
- *              500 :
- *                  description : Internal Server Error
+ *                  content :
+ *                      application/json : 
+ *                          schema : 
+ *                              $ref : '#/definitions/GetOtpAuth'
  */
 
 /**
@@ -88,12 +86,10 @@
  *          responses :
  *              201 :
  *                  description : Success - Created
- *              400 :
- *                  description : Bad Request
- *              401 :
- *                  description : UnAuthorization
- *              500 :
- *                  description : Internal Server Error
+ *                  content :
+ *                      application/json : 
+ *                          schema : 
+ *                              $ref : '#/definitions/OTP'
  */
 
 /**
@@ -114,10 +110,8 @@
  *          responses :
  *              201 :
  *                  description : Success - Created
- *              400 :
- *                  description : Bad Request
- *              401 :
- *                  description : UnAuthorization
- *              500 :
- *                  description : Internal Server Error
+ *                  content :
+ *                      application/json : 
+ *                          schema : 
+ *                              $ref : '#/definitions/OTP'
  */
