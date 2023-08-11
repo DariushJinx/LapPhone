@@ -47,6 +47,10 @@
  *          responses :
  *              201 :
  *                  description : create - departmentSub created
+ *                  content : 
+ *                      application/json :
+ *                          schema :
+ *                              $ref : '#/definitions/DepartmentSub'
  */
 /**
  * @swagger
@@ -57,6 +61,10 @@
  *          responses :
  *              200 :
  *                  description : success 
+ *                  content : 
+ *                      application/json :
+ *                          schema :
+ *                              $ref : '#/definitions/DepartmentSubList'
  */
 /**
  * @swagger
@@ -81,6 +89,10 @@
  *          responses :
  *              200 :
  *                  description : success - departmentSub updated
+ *                  content : 
+ *                      application/json :
+ *                          schema :
+ *                              $ref : '#/definitions/DeleteAndUpdate'
  */
 /**
  * @swagger
@@ -96,4 +108,8 @@
  *          responses :
  *              200 :
  *                  description : success - departmentSub removed
+ *                  content : 
+ *                      application/json :
+ *                          schema :
+ *                              $ref : '#/definitions/DeleteAndUpdate'
  */
