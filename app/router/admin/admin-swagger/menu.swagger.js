@@ -64,6 +64,10 @@
  *          responses :
  *              201 :
  *                  description : create - submenu created
+ *                  content :
+ *                      application/json :
+ *                          schema :
+ *                              $ref : '#/definitions/CreateSubmenu'
  */
 
 /**
@@ -78,7 +82,7 @@
  *                  content :
  *                      application/json :
  *                          schema :
- *                              $ref : '#/definitions/CreateMenu'
+ *                              $ref : '#/definitions/CreateSubmenu'
  */
 
 /**
