@@ -202,18 +202,9 @@ class Product extends Controller {
 
   async listOfProduct(req, res, next) {
     try {
-      const products = await ProductModel.find({})
+      const product = await ProductModel.find({})
         .populate([
-          {
-            path: "supplier",
-            select: {
-              first_name: 1,
-              last_name: 1,
-              username: 1,
-              role: 1,
-              _id: 0,
-            },
-          },
+          
           {
             path: "category",
             select: { title: 1, _id: 0 },
@@ -248,13 +239,23 @@ class Product extends Controller {
               _id: 0,
             },
           },
+          {
+            path: "supplier",
+            select: {
+              first_name: 1,
+              last_name: 1,
+              username: 1,
+              role: 1,
+              _id: 0,
+            },
+          },
         ])
         .lean();
       return res.status(HttpStatus.OK).json({
         statusCode: HttpStatus.OK,
         data: {
           message: "تمامی محصولات موجود با موفقیت بازگردانی شدند",
-          products,
+          product,
         },
       });
     } catch (err) {
