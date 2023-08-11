@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const AnswerSchema = new mongoose.Schema(
   {
-    user: { type: mongoose.Types.ObjectId, ref: "users", required: true },
+    AnswerUser: { type: mongoose.Types.ObjectId, ref: "users", required: true },
     comment: { type: String, required: true },
     openToComment: { type: Boolean, default: false },
   },
@@ -17,7 +17,7 @@ const AnswerSchema = new mongoose.Schema(
 const CommentSchema = new mongoose.Schema(
   {
     show: { type: Number, required: true, default: 0 },
-    user: { type: mongoose.Types.ObjectId, ref: "users", required: true },
+    commentUser: { type: mongoose.Types.ObjectId, ref: "users", required: true },
     comment: { type: String, required: true },
     openToComment: { type: Boolean, default: true },
     answers: { type: [AnswerSchema], default: [] },
