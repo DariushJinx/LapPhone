@@ -38,9 +38,16 @@
  *                  application/x-www-form-urlencoded :
  *                      schema :
  *                          $ref : '#/components/schemas/AddComment'
+ *                  application/json :
+ *                      schema :
+ *                          $ref : '#/components/schemas/AddComment'
  *          responses :
  *              201 :
  *                  description : created
+ *                  content : 
+ *                      application/json : 
+ *                          schema : 
+ *                              $ref : "#/definitions/Comment"
  */
 
 /**
@@ -52,6 +59,10 @@
  *          responses :
  *              200 :
  *                  description : success
+ *                  content : 
+ *                      application/json : 
+ *                          schema : 
+ *                              $ref : "#/definitions/Comment"
  */
 /**
  * @swagger
@@ -67,6 +78,10 @@
  *          responses :
  *              200 :
  *                  description : success
+ *                  content : 
+ *                      application/json : 
+ *                          schema : 
+ *                              $ref : "#/definitions/DeleteAndUpdate"
  */
 /**
  * @swagger
@@ -88,6 +103,10 @@
  *          responses :
  *              200 :
  *                  description : success
+ *                  content : 
+ *                      application/json : 
+ *                          schema : 
+ *                              $ref : "#/definitions/DeleteAndUpdate"
  */
 /**
  * @swagger
@@ -103,4 +122,8 @@
  *          responses :
  *              200 :
  *                  description : success
+ *                  content : 
+ *                      application/json : 
+ *                          schema : 
+ *                              $ref : "#/definitions/DeleteAndUpdate"
  */
