@@ -151,6 +151,10 @@
  *          responses :
  *              201 :
  *                  description : create - product created
+ *                  content : 
+ *                      application/json : 
+ *                          schema : 
+ *                              $ref : '#/definitions/AddProduct'
  */
 
 /**
@@ -162,6 +166,10 @@
  *          responses :
  *              200 :
  *                  description : success
+ *                  content : 
+ *                      application/json : 
+ *                          schema : 
+ *                              $ref : '#/definitions/ProductList'
  */
 
 /**
