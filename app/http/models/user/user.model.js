@@ -24,12 +24,9 @@ const schema = new mongoose.Schema(
         expiresIn: 0,
       },
     },
-    bills: { type: [], default: [] },
-    discount: { type: Number, default: 0 },
     birthday: { type: String },
     token: { type: String, default: "" },
     role: { type: String, enum: ["USER", "ADMIN"], default: "USER" },
-    Products: { type: [mongoose.Types.ObjectId], ref: "products", default: [] },
     basket: { type: BasketSchema },
   },
   {
