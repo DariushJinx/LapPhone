@@ -40,7 +40,7 @@ class Auth extends Controller {
       const { mobile, code } = validation;
       const user = await UserModel.findOne(
         { mobile },
-        { password: 0, accessToken: 0, refreshToken: 0 }
+        { password: 0, "otp.expiresIn" : 0 }
       );
       if (!user) throw createHttpError.NotFound("کاربر مورد نظر یافت نشد");
       if (user.otp.code != code)
@@ -68,7 +68,7 @@ class Auth extends Controller {
     try {
       const { refreshToken } = req.body;
       const mobile = await verifyRefreshToken(refreshToken);
-      const user = await UserModel.findOne({ mobile });
+      const user = await UserModel.findOne({ mobile },{"otp.expiresIn" : 0});
       const accessToken = await SignAccessToken(user._id);
       const newRefreshToken = await SignRefreshToken(user._id);
       return res.status(HttpStatus.OK).json({
