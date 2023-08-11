@@ -36,7 +36,7 @@ class Menu extends Controller {
       const validation = await MenuValidation.validateAsync(req.body);
       const { title } = validation;
       await this.findMenuWithTitle(title);
-      const submenu = await MenuModel.findOneAndUpdate(
+      const menu = await MenuModel.findOneAndUpdate(
         { title: titleName },
         {
           $push: {
@@ -46,13 +46,13 @@ class Menu extends Controller {
           },
         }
       );
-      if (!submenu)
+      if (!menu)
         throw createHttpError.InternalServerError("زیر منو مورد نظر ایجاد نشد");
       return res.status(HttpStatus.CREATED).json({
         statusCode: HttpStatus.CREATED,
         data: {
           message: "زیر منو مورد نظر با موفقیت ایجاد شد",
-          submenu,
+          menu,
         },
       });
     } catch (err) {
@@ -62,12 +62,12 @@ class Menu extends Controller {
 
   async getListOfMenus(req, res, next) {
     try {
-      const menus = await MenuModel.find({ __v: 0 });
+      const menu = await MenuModel.find({ __v: 0 });
       return res.status(HttpStatus.OK).json({
         statusCode: HttpStatus.OK,
         data: {
           message: "تمامی منوهای موجود با موفقیت به روز رسانی شدند",
-          menus,
+          menu,
         },
       });
     } catch (err) {
