@@ -94,13 +94,13 @@ class Comment extends Controller {
       const comments = await CommentModel.find({})
         .populate([
           {
-            path: "user",
+            path: "commentUser",
             select: { first_name: 1, last_name: 1, email: 1, role: 1, _id: 0 },
           },
           {
             path: "answers",
             populate: {
-              path: "user",
+              path: "AnswerUser",
               select: {
                 first_name: 1,
                 last_name: 1,
@@ -113,11 +113,11 @@ class Comment extends Controller {
 
           {
             path: "productName",
-            select: { title: 1 },
+            select: { title: 1,_id : 0 },
           },
           {
             path: "blogName",
-            select: { title: 1 },
+            select: { title: 1,_id : 0 },
           },
         ])
         .lean();
