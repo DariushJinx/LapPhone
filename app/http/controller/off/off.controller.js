@@ -48,6 +48,16 @@ class Off {
               _id: 0,
             },
           },
+          {
+            path: "product",
+            select: {
+              title: 1,
+              short_title: 1,
+              text: 1,
+              short_text: 1,
+              _id: 0,
+            },
+          },
         ])
         .lean();
       if (list.length === 0) {
@@ -87,9 +97,23 @@ class Off {
         const Off = await OffModel.findOneAndUpdate(
           { code, product },
           { uses: off.uses + 1 }
-        );
+        )
+          .populate([
+            {
+              path: "product",
+              select: {
+                title: 1,
+                short_title: 1,
+                text: 1,
+                short_text: 1,
+                _id: 0,
+              },
+            },
+          ])
+          .lean();
         return res.status(HttpStatus.OK).json({
           data: {
+            message: "سقف استفاده از کد تخفیف آپدیت شد",
             Off,
           },
         });
@@ -120,12 +144,11 @@ class Off {
     try {
       const validation = await setDiscountOnAll.validateAsync(req.body);
       const { discount } = validation;
-      const setDiscountOnProducts = await ProductModel.updateMany({ discount });
+      await ProductModel.updateMany({ discount });
       return res.status(HttpStatus.OK).json({
         statusCode: HttpStatus.OK,
         data: {
           message: "کذ تخفیف برای تمامی محصولات اضافه گردید",
-          setDiscountOnProducts,
         },
       });
     } catch (err) {
