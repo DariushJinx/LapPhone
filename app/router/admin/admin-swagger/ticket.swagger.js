@@ -67,6 +67,10 @@
  *          responses :
  *              201 :
  *                  description : create - ticket created
+ *                  content :
+ *                      application/json :
+ *                          schema :
+ *                              $ref : '#/definitions/CreateTicket'
  */
 /**
  * @swagger
@@ -86,6 +90,10 @@
  *          responses :
  *              201 :
  *                  description : create - set answer ticket
+ *                  content :
+ *                      application/json :
+ *                          schema :
+ *                              $ref : '#/definitions/SetAnswer'
  */
 
 /**
@@ -102,6 +110,10 @@
  *          responses :
  *              200 :
  *                  description : success
+ *                  content :
+ *                      application/json :
+ *                          schema :
+ *                              $ref : '#/definitions/GetAnswer'
  */
 /**
  * @swagger
@@ -112,6 +124,10 @@
  *          responses :
  *              200 :
  *                  description : success
+ *                  content :
+ *                      application/json :
+ *                          schema :
+ *                              $ref : '#/definitions/TicketList'
  */
 
 /**
@@ -123,4 +139,8 @@
  *          responses :
  *              200 :
  *                  description : success
+ *                  content :
+ *                      application/json :
+ *                          schema :
+ *                              $ref : '#/definitions/TicketList'
  */
