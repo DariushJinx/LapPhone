@@ -1,5 +1,4 @@
 const createHttpError = require("http-errors");
-const { findOne } = require("../../../utils/functions.utils");
 const BlogModel = require("../../models/blog/blog.model");
 const CommentModel = require("../../models/comments/comment.model");
 const ProductModel = require("../../models/product/product.model");
