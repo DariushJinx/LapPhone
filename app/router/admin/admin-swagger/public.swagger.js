@@ -695,9 +695,9 @@
  *                      message :
  *                          type : string
  *                          example : the best message for route
- *                      off : 
+ *                      off :
  *                          type : object
- *                          properties : 
+ *                          properties :
  *                              _id :
  *                                  type : string
  *                                  example : "64c7a63c69c2d3480160f729"
@@ -744,9 +744,9 @@
  *                      message :
  *                          type : string
  *                          example : the best message for route
- *                      product : 
+ *                      product :
  *                          type : object
- *                          properties : 
+ *                          properties :
  *                              _id :
  *                                  type : string
  *                                  example : "64c7a63c69c2d3480160f729"
@@ -762,28 +762,28 @@
  *                              short_text :
  *                                  type : string
  *                                  example : everything
- *                              images : 
+ *                              images :
  *                                  type : array
- *                                  items : 
+ *                                  items :
  *                                      type : string
- *                              tags : 
+ *                              tags :
  *                                  type : array
- *                                  items : 
+ *                                  items :
  *                                      type : string
  *                              category :
  *                                  type : string
  *                                  example : 64c7a63c69c2d3480160f729
- *                              likes : 
+ *                              likes :
  *                                  type : array
- *                                  items : 
+ *                                  items :
  *                                      type : object
- *                              dislikes : 
+ *                              dislikes :
  *                                  type : array
- *                                  items : 
+ *                                  items :
  *                                      type : object
- *                              bookmarks : 
+ *                              bookmarks :
  *                                  type : array
- *                                  items : 
+ *                                  items :
  *                                      type : object
  *                              price :
  *                                  type : integer
@@ -797,9 +797,9 @@
  *                              supplier :
  *                                  type : string
  *                                  example : 64c7a63c69c2d3480160f729
- *                              colors : 
+ *                              colors :
  *                                  type : array
- *                                  items : 
+ *                                  items :
  *                                      type : string
  */
 /**
@@ -817,9 +817,9 @@
  *                      message :
  *                          type : string
  *                          example : the best message for route
- *                      product : 
+ *                      product :
  *                          type : object
- *                          properties : 
+ *                          properties :
  *                              _id :
  *                                  type : string
  *                                  example : "64c7a63c69c2d3480160f729"
@@ -835,66 +835,66 @@
  *                              short_text :
  *                                  type : string
  *                                  example : everything
- *                              images : 
+ *                              images :
  *                                  type : array
- *                                  items : 
+ *                                  items :
  *                                      type : string
- *                              tags : 
+ *                              tags :
  *                                  type : array
- *                                  items : 
+ *                                  items :
  *                                      type : string
  *                              category :
  *                                  type : string
  *                                  example : 64c7a63c69c2d3480160f729
- *                              likes : 
+ *                              likes :
  *                                  type : array
- *                                  items : 
+ *                                  items :
  *                                      type : object
- *                                      properties : 
- *                                          first_name : 
+ *                                      properties :
+ *                                          first_name :
  *                                              type : string
  *                                              example : everything
- *                                          last_name : 
+ *                                          last_name :
  *                                              type : string
  *                                              example : everything
- *                                          username : 
+ *                                          username :
  *                                              type : string
  *                                              example : everything
- *                                          role : 
+ *                                          role :
  *                                              type : string
  *                                              example : everything
- *                              dislikes : 
+ *                              dislikes :
  *                                  type : array
- *                                  items : 
+ *                                  items :
  *                                      type : object
- *                                      properties : 
- *                                          first_name : 
+ *                                      properties :
+ *                                          first_name :
  *                                              type : string
  *                                              example : everything
- *                                          last_name : 
+ *                                          last_name :
  *                                              type : string
  *                                              example : everything
- *                                          username : 
+ *                                          username :
  *                                              type : string
  *                                              example : everything
- *                                          role : 
+ *                                          role :
  *                                              type : string
  *                                              example : everything
- *                              bookmarks : 
+ *                              bookmarks :
  *                                  type : array
- *                                  items : 
+ *                                  items :
  *                                      type : object
- *                                      properties : 
- *                                          first_name : 
+ *                                      properties :
+ *                                          first_name :
  *                                              type : string
  *                                              example : everything
- *                                          last_name : 
+ *                                          last_name :
  *                                              type : string
  *                                              example : everything
- *                                          username : 
+ *                                          username :
  *                                              type : string
  *                                              example : everything
- *                                          role : 
+ *                                          role :
  *                                              type : string
  *                                              example : everything
  *                              price :
@@ -909,8 +909,601 @@
  *                              supplier :
  *                                  type : string
  *                                  example : 64c7a63c69c2d3480160f729
- *                              colors : 
+ *                              colors :
  *                                  type : array
- *                                  items : 
+ *                                  items :
  *                                      type : string
+ */
+
+/**
+ * @swagger
+ *  definitions :
+ *      CreateTicket :
+ *          type : object
+ *          properties :
+ *              statusCode :
+ *                  type : integer
+ *                  example : 20X
+ *              data :
+ *                  type : object
+ *                  properties :
+ *                      message :
+ *                          type : string
+ *                          example : the best message for route
+ *                      mainTicket :
+ *                          type : object
+ *                          properties :
+ *                              _id :
+ *                                  type : string
+ *                                  example : "64c7a63c69c2d3480160f729"
+ *                              departmentID :
+ *                                  type : string
+ *                                  example : 64c7a63c69c2d3480160f729
+ *                              departmentSubID :
+ *                                  type : string
+ *                                  example : 64c7a63c69c2d3480160f729
+ *                              priority :
+ *                                  type : number
+ *                                  example : 5
+ *                              title :
+ *                                  type : string
+ *                                  example : everything
+ *                              body :
+ *                                  type : string
+ *                                  example : everything
+ *                              user :
+ *                                  type : string
+ *                                  example : 64c7a63c69c2d3480160f729
+ *                              answer :
+ *                                  type : number
+ *                                  example : 0
+ *                              product :
+ *                                  type : string
+ *                                  example : 64c7a63c69c2d3480160f729
+ *                              isAnswer :
+ *                                  type : number
+ *                                  example : 0
+ */
+/**
+ * @swagger
+ *  definitions :
+ *      SetAnswer :
+ *          type : object
+ *          properties :
+ *              statusCode :
+ *                  type : integer
+ *                  example : 20X
+ *              data :
+ *                  type : object
+ *                  properties :
+ *                      message :
+ *                          type : string
+ *                          example : the best message for route
+ *                      answer :
+ *                          type : object
+ *                          properties :
+ *                              _id :
+ *                                  type : string
+ *                                  example : "64c7a63c69c2d3480160f729"
+ *                              departmentID :
+ *                                  type : string
+ *                                  example : 64c7a63c69c2d3480160f729
+ *                              departmentSubID :
+ *                                  type : string
+ *                                  example : 64c7a63c69c2d3480160f729
+ *                              priority :
+ *                                  type : number
+ *                                  example : 5
+ *                              title :
+ *                                  type : string
+ *                                  example : everything
+ *                              body :
+ *                                  type : string
+ *                                  example : everything
+ *                              user :
+ *                                  type : string
+ *                                  example : 64c7a63c69c2d3480160f729
+ *                              answer :
+ *                                  type : number
+ *                                  example : 0
+ *                              parent :
+ *                                  type : string
+ *                                  example : 64c7a63c69c2d3480160f729
+ *                              isAnswer :
+ *                                  type : number
+ *                                  example : 1
+ */
+
+/**
+ * @swagger
+ *  definitions :
+ *      GetAnswer :
+ *          type : object
+ *          properties :
+ *              statusCode :
+ *                  type : integer
+ *                  example : 20X
+ *              data :
+ *                  type : object
+ *                  properties :
+ *                      message :
+ *                          type : string
+ *                          example : the best message for route
+ *                      ticket :
+ *                          type : string
+ *                          example : test
+ *                      answer :
+ *                          type : string
+ *                          example : test
+ */
+
+/**
+ * @swagger
+ *  definitions :
+ *      TicketList :
+ *          type : object
+ *          properties :
+ *              statusCode :
+ *                  type : integer
+ *                  example : 20X
+ *              data :
+ *                  type : object
+ *                  properties :
+ *                      message :
+ *                          type : string
+ *                          example : the best message for route
+ *                      ticketArr :
+ *                          type : array
+ *                          items :
+ *                              type : object
+ *                              properties :
+ *                                  _id :
+ *                                      type : string
+ *                                      example : "64c7a63c69c2d3480160f729"
+ *                                  departmentID :
+ *                                      type : string
+ *                                      example : پشتیبانی
+ *                                  departmentSubID :
+ *                                      type : string
+ *                                      example : پشتیبانی محصولات
+ *                                  priority :
+ *                                      type : number
+ *                                      example : 5
+ *                                  title :
+ *                                      type : string
+ *                                      example : everything
+ *                                  body :
+ *                                      type : string
+ *                                      example : everything
+ *                                  user :
+ *                                      type : string
+ *                                      example : cyrus
+ *                                  answer :
+ *                                      type : number
+ *                                      example : 1
+ *                                  product :
+ *                                      type : string
+ *                                      example : test
+ *                                  isAnswer :
+ *                                      type : number
+ *                                      example : 1
+ */
+
+/**
+ * @swagger
+ *  definitions :
+ *      GetBookmarked :
+ *          type : object
+ *          properties :
+ *              statusCode :
+ *                  type : integer
+ *                  example : 20X
+ *              data :
+ *                  type : object
+ *                  properties :
+ *                      message :
+ *                          type : string
+ *                          example : the best message for route
+ *                      blogs :
+ *                          type : array
+ *                          items :
+ *                              type : object
+ *                              properties :
+ *                                  _id :
+ *                                      type : string
+ *                                      example : "64c7a63c69c2d3480160f729"
+ *                                  author :
+ *                                      type : object
+ *                                      properties :
+ *                                          first_name :
+ *                                              type : string
+ *                                              example : everything
+ *                                          last_name :
+ *                                              type : string
+ *                                              example : everything
+ *                                          username :
+ *                                              type : string
+ *                                              example : everything
+ *                                          role :
+ *                                              type : string
+ *                                              example : USER
+ *                                  title :
+ *                                      type : string
+ *                                      example : everything
+ *                                  text :
+ *                                      type : string
+ *                                      example : everything
+ *                                  short_text :
+ *                                      type : string
+ *                                      example : everything
+ *                                  images :
+ *                                      type : array
+ *                                      items :
+ *                                          type : string
+ *                                          example : everything
+ *                                  tags :
+ *                                      type : array
+ *                                      items :
+ *                                          type : string
+ *                                          example : everything
+ *                                  category :
+ *                                      type : object
+ *                                      properties :
+ *                                          title :
+ *                                              type : string
+ *                                              example : everything
+ *                                  likes :
+ *                                      type : object
+ *                                      properties :
+ *                                          first_name :
+ *                                              type : string
+ *                                              example : everything
+ *                                          last_name :
+ *                                              type : string
+ *                                              example : everything
+ *                                          username :
+ *                                              type : string
+ *                                              example : everything
+ *                                          role :
+ *                                              type : string
+ *                                              example : USER
+ *                                  dislikes :
+ *                                      type : object
+ *                                      properties :
+ *                                          first_name :
+ *                                              type : string
+ *                                              example : everything
+ *                                          last_name :
+ *                                              type : string
+ *                                              example : everything
+ *                                          username :
+ *                                              type : string
+ *                                              example : everything
+ *                                          role :
+ *                                              type : string
+ *                                              example : USER
+ *                                  bookmarks :
+ *                                      type : object
+ *                                      properties :
+ *                                          first_name :
+ *                                              type : string
+ *                                              example : everything
+ *                                          last_name :
+ *                                              type : string
+ *                                              example : everything
+ *                                          username :
+ *                                              type : string
+ *                                              example : everything
+ *                                          role :
+ *                                              type : string
+ *                                              example : USER
+ */
+
+/**
+ * @swagger
+ *  definitions :
+ *      GetBookmarkedProduct :
+ *          type : object
+ *          properties :
+ *              statusCode :
+ *                  type : integer
+ *                  example : 20X
+ *              data :
+ *                  type : object
+ *                  properties :
+ *                      message :
+ *                          type : string
+ *                          example : the best message for route
+ *                      products :
+ *                          type : array
+ *                          items :
+ *                              type : object
+ *                              properties :
+ *                                  _id :
+ *                                      type : string
+ *                                      example : "64c7a63c69c2d3480160f729"
+ *                                  supplier :
+ *                                      type : object
+ *                                      properties :
+ *                                          first_name :
+ *                                              type : string
+ *                                              example : everything
+ *                                          last_name :
+ *                                              type : string
+ *                                              example : everything
+ *                                          username :
+ *                                              type : string
+ *                                              example : everything
+ *                                          role :
+ *                                              type : string
+ *                                              example : USER
+ *                                  title :
+ *                                      type : string
+ *                                      example : everything
+ *                                  short_title :
+ *                                      type : string
+ *                                      example : everything
+ *                                  text :
+ *                                      type : string
+ *                                      example : everything
+ *                                  short_text :
+ *                                      type : string
+ *                                      example : everything
+ *                                  images :
+ *                                      type : array
+ *                                      items :
+ *                                          type : string
+ *                                          example : everything
+ *                                  tags :
+ *                                      type : array
+ *                                      items :
+ *                                          type : string
+ *                                          example : everything
+ *                                  category :
+ *                                      type : object
+ *                                      properties :
+ *                                          title :
+ *                                              type : string
+ *                                              example : everything
+ *                                  likes :
+ *                                      type : object
+ *                                      properties :
+ *                                          first_name :
+ *                                              type : string
+ *                                              example : everything
+ *                                          last_name :
+ *                                              type : string
+ *                                              example : everything
+ *                                          username :
+ *                                              type : string
+ *                                              example : everything
+ *                                          role :
+ *                                              type : string
+ *                                              example : USER
+ *                                  dislikes :
+ *                                      type : object
+ *                                      properties :
+ *                                          first_name :
+ *                                              type : string
+ *                                              example : everything
+ *                                          last_name :
+ *                                              type : string
+ *                                              example : everything
+ *                                          username :
+ *                                              type : string
+ *                                              example : everything
+ *                                          role :
+ *                                              type : string
+ *                                              example : USER
+ *                                  bookmarks :
+ *                                      type : object
+ *                                      properties :
+ *                                          first_name :
+ *                                              type : string
+ *                                              example : everything
+ *                                          last_name :
+ *                                              type : string
+ *                                              example : everything
+ *                                          username :
+ *                                              type : string
+ *                                              example : everything
+ *                                          role :
+ *                                              type : string
+ *                                              example : USER
+ *                                  price :
+ *                                      type : number
+ *                                      example : 120000
+ *                                  discount :
+ *                                      type : number
+ *                                      example : 10
+ *                                  count :
+ *                                      type : number
+ *                                      example : 15
+ *                                  colors :
+ *                                      type : array
+ *                                      items :
+ *                                          type : string
+ *                                          example : everything
+ *                                  features :
+ *                                      type : object
+ *                                      properties :
+ *                                          feature_detail :
+ *                                              type : array
+ *                                              items :
+ *                                                  _id :
+ *                                                      type : string
+ *                                                      example : 64d5cca4e841a96c6b09a4f6
+ *                                                  feature_title :
+ *                                                      type : string
+ *                                                      example : everything
+ *                                                  feature_description :
+ *                                                      type : string
+ *                                                      example : everything
+ */
+
+/**
+ * @swagger
+ *  definitions :
+ *      Basket :
+ *          type : object
+ *          properties :
+ *              statusCode :
+ *                  type : integer
+ *                  example : 20X
+ *              data :
+ *                  type : object
+ *                  properties :
+ *                      message :
+ *                          type : string
+ *                          example : the best message for route
+ *                      userDetail :
+ *                          type : array
+ *                          items :
+ *                              type : object
+ *                              properties :
+ *                                  _id :
+ *                                      type : string
+ *                                      example : "64c7a63c69c2d3480160f729"
+ *                                  supplier :
+ *                                      type : string
+ *                                      example : "64c7a63c69c2d3480160f729"
+ *                                  title :
+ *                                      type : string
+ *                                      example : everything
+ *                                  short_title :
+ *                                      type : string
+ *                                      example : everything
+ *                                  text :
+ *                                      type : string
+ *                                      example : everything
+ *                                  short_text :
+ *                                      type : string
+ *                                      example : everything
+ *                                  images :
+ *                                      type : array
+ *                                      items :
+ *                                          type : string
+ *                                          example : everything
+ *                                  tags :
+ *                                      type : array
+ *                                      items :
+ *                                          type : string
+ *                                          example : everything
+ *                                  category :
+ *                                      type : string
+ *                                      example : "64c7a63c69c2d3480160f729"
+ *                                  likes :
+ *                                      type : string
+ *                                      example : "64c7a63c69c2d3480160f729"
+ *                                  dislikes :
+ *                                      type : string
+ *                                      example : "64c7a63c69c2d3480160f729"
+ *                                  bookmarks :
+ *                                      type : string
+ *                                      example : "64c7a63c69c2d3480160f729"
+ *                                  price :
+ *                                      type : number
+ *                                      example : 120000
+ *                                  discount :
+ *                                      type : number
+ *                                      example : 10
+ *                                  count :
+ *                                      type : number
+ *                                      example : 15
+ *                                  colors :
+ *                                      type : array
+ *                                      items :
+ *                                          type : string
+ *                                          example : everything
+ *                                  features :
+ *                                      type : object
+ *                                      properties :
+ *                                          feature_detail :
+ *                                              type : array
+ *                                              items :
+ *                                                  _id :
+ *                                                      type : string
+ *                                                      example : 64d5cca4e841a96c6b09a4f6
+ *                                                  feature_title :
+ *                                                      type : string
+ *                                                      example : everything
+ *                                                  feature_description :
+ *                                                      type : string
+ *                                                      example : everything
+ *                                  basketCount :
+ *                                      type : number
+ *                                      example : 1
+ *                                  totalPrice :
+ *                                      type : number
+ *                                      example : 120000
+ *                                  finalPrice :
+ *                                      type : number
+ *                                      example : 115000
+ *                                  payDetail :
+ *                                      type : object
+ *                                      properties :
+ *                                           productAmount :
+ *                                               type : number
+ *                                               example : 115000
+ *                                           paymentAmount :
+ *                                               type : number
+ *                                               example : 115000
+ *                                           productIds :
+ *                                               type : array
+ *                                               items :
+ *                                                  type : string
+ *
+ */
+
+
+/**
+ * @swagger
+ *  definitions :
+ *      AllUsers :
+ *          type : object
+ *          properties :
+ *              statusCode :
+ *                  type : integer
+ *                  example : 20X
+ *              data :
+ *                  type : object
+ *                  properties :
+ *                      message :
+ *                          type : string
+ *                          example : the best message for route
+ *                      users :
+ *                          type : array
+ *                          items :
+ *                              type : object
+ *                              properties :
+ *                                  _id :
+ *                                      type : string
+ *                                      example : "64c7a63c69c2d3480160f729"
+ *                                  mobile :
+ *                                      type : string
+ *                                      example : 09215957912
+ *                                  otp :
+ *                                      type : object
+ *                                      properties : 
+ *                                          code : 
+ *                                              type : number
+ *                                              example : 33195
+ *                                  role :
+ *                                      type : string
+ *                                      example : ADMIN
+ *                                  birthday :
+ *                                      type : string
+ *                                      example : yyyy-mm-dd
+ *                                  email :
+ *                                      type : string
+ *                                      example : www.everything@gmail.com
+ *                                  first_name :
+ *                                      type : string
+ *                                      example : everything
+ *                                  last_name :
+ *                                      type : string
+ *                                      example : everything
+ *                                  username :
+ *                                      type : string
+ *                                      example : everything
  */
