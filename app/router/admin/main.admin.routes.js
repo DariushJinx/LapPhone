@@ -11,21 +11,29 @@ const RoleRoutes = require("./role/role.routes");
 
 const AdminRoutes = require("express").Router();
 
-AdminRoutes.use(
-  "/permission",
-  checkPermission([PERMISSIONS.ADMIN]),
-  PermissionRoutes
-);
-AdminRoutes.use("/role", checkPermission([PERMISSIONS.ADMIN]), RoleRoutes);
+AdminRoutes.use("/permission", PermissionRoutes);
+AdminRoutes.use("/role", RoleRoutes);
 AdminRoutes.use(
   "/category",
   checkPermission([PERMISSIONS.ADMIN]),
   CategoryRoutes
 );
-AdminRoutes.use("/blog", checkPermission([PERMISSIONS.USER]), BlogRoutes);
-AdminRoutes.use("/product", ProductRoutes);
-AdminRoutes.use("/off", OffRoutes);
-AdminRoutes.use("/department", DepartmentRoutes);
-AdminRoutes.use("/departmentSub", DepartmentSubRoutes);
+AdminRoutes.use("/blog", checkPermission([PERMISSIONS.ADMIN]), BlogRoutes);
+AdminRoutes.use(
+  "/product",
+  checkPermission([PERMISSIONS.ADMIN]),
+  ProductRoutes
+);
+AdminRoutes.use("/off", checkPermission([PERMISSIONS.ADMIN]), OffRoutes);
+AdminRoutes.use(
+  "/department",
+  checkPermission([PERMISSIONS.ADMIN]),
+  DepartmentRoutes
+);
+AdminRoutes.use(
+  "/departmentSub",
+  checkPermission([PERMISSIONS.ADMIN]),
+  DepartmentSubRoutes
+);
 
 module.exports = AdminRoutes;
