@@ -5,7 +5,7 @@ const { MongoIDPattern } = require("../../../utils/constans.utils");
 const CreateBlogValidation = Joi.object({
   title: Joi.string()
     .min(3)
-    .max(30)
+    .max(70)
     .error(createHttpError.BadRequest("عنوان مقاله ارسالی صحیح نمی باشد")),
   text: Joi.string().error(
     createHttpError.BadRequest("متن مقاله ارسالی صحیح نمی باشد")
