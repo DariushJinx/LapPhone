@@ -3,7 +3,7 @@ const {
   RandomNumberGenerator,
   SignAccessToken,
   SignRefreshToken,
-  verifyRefreshToken,
+  // verifyRefreshToken,
 } = require("../../../utils/functions.utils");
 const UserModel = require("../../models/user/user.model");
 const {
@@ -64,26 +64,26 @@ class Auth extends Controller {
     }
   }
 
-  async refreshToken(req, res, next) {
-    try {
-      const { refreshToken } = req.body;
-      const mobile = await verifyRefreshToken(refreshToken);
-      const user = await UserModel.findOne({ mobile },{"otp.expiresIn" : 0});
-      const accessToken = await SignAccessToken(user._id);
-      const newRefreshToken = await SignRefreshToken(user._id);
-      return res.status(HttpStatus.OK).json({
-        statusCode: HttpStatus.OK,
-        data: {
-          message: "توکن جدید ایجاد شد",
-          accessToken,
-          refreshToken: newRefreshToken,
-          user,
-        },
-      });
-    } catch (err) {
-      next(err);
-    }
-  }
+  // async refreshToken(req, res, next) {
+  //   try {
+  //     const { refreshToken } = req.body;
+  //     const mobile = await verifyRefreshToken(refreshToken);
+  //     const user = await UserModel.findOne({ mobile },{"otp.expiresIn" : 0});
+  //     const accessToken = await SignAccessToken(user._id);
+  //     const newRefreshToken = await SignRefreshToken(user._id);
+  //     return res.status(HttpStatus.OK).json({
+  //       statusCode: HttpStatus.OK,
+  //       data: {
+  //         message: "توکن جدید ایجاد شد",
+  //         accessToken,
+  //         refreshToken: newRefreshToken,
+  //         user,
+  //       },
+  //     });
+  //   } catch (err) {
+  //     next(err);
+  //   }
+  // }
 
   async saveUser(code, mobile) {
     const now = new Date().getTime();
