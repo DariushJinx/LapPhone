@@ -17,7 +17,7 @@ module.exports = class Application {
     this.#PORT = PORT;
     this.#DB_URI = DB_URI;
     this.configApplication();
-    this.initRedis();
+    // this.initRedis();
     this.connectToMongoDB();
     this.createServer();
     this.createRoutes();
@@ -65,9 +65,9 @@ module.exports = class Application {
     );
   }
 
-  initRedis() {
-    require("./utils/initRedis.utils");
-  }
+  // initRedis() {
+  //   require("./utils/initRedis.utils");
+  // }
 
   createServer() {
     const http = require("http");
