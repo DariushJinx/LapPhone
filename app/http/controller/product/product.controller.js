@@ -65,6 +65,7 @@ class Product extends Controller {
       next(err);
     }
   }
+  
   async addFeaturesForProduct(req, res, next) {
     try {
       const { field } = req.params;
@@ -128,6 +129,7 @@ class Product extends Controller {
       next(err);
     }
   }
+
   async removeProduct(req, res, next) {
     try {
       const { field } = req.params;
@@ -147,6 +149,7 @@ class Product extends Controller {
       next(err);
     }
   }
+
   async getOneProduct(req, res, next) {
     try {
       const { field } = req.params;
@@ -262,6 +265,7 @@ class Product extends Controller {
       next(err);
     }
   }
+
   async searchOfProduct(req, res, next) {
     try {
       const search = req?.query?.search;
