@@ -47,7 +47,10 @@ class Category extends Controller {
         .populate([
           {
             path: "children",
-            select: { parent: 1, title: 1, _id: 0 },
+            select: { parent: 1, title: 1 },
+            populate : {
+              path : "children"
+            }
           },
         ])
         .lean();
