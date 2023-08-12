@@ -157,7 +157,7 @@ async function getBasketOfUser(userID, discount = {}) {
         as: "productDetail",
       },
     },
-    
+
     {
       $addFields: {
         productDetail: {
@@ -203,7 +203,7 @@ async function getBasketOfUser(userID, discount = {}) {
               );
               return {
                 productAmount,
-                paymentAmount:  productAmount,
+                paymentAmount: productAmount,
                 productIds,
               };
             },
@@ -216,7 +216,7 @@ async function getBasketOfUser(userID, discount = {}) {
     {
       $project: { basket: 0 },
     },
-  ])
+  ]);
   return copyObject(userDetail);
 }
 
