@@ -5,7 +5,7 @@ const {
   REFRESH_TOKEN_SECRET_KEY,
 } = require("./constans.utils");
 const createHttpError = require("http-errors");
-const redisClient = require("./initRedis.utils");
+// const redisClient = require("./initRedis.utils");
 const path = require("path");
 const fs = require("fs");
 const ProductModel = require("../http/models/product/product.model");
@@ -41,35 +41,35 @@ function SignRefreshToken(userID) {
     };
     JWT.sign(payload, REFRESH_TOKEN_SECRET_KEY, options, async (err, token) => {
       if (err) throw createHttpError.InternalServerError("خطای سرور");
-      await redisClient.SETEX(String(userID), 365 * 24 * 60 * 60, token);
+      // await redisClient.SETEX(String(userID), 365 * 24 * 60 * 60, token);
       resolve(token);
     });
   });
 }
 
-function verifyRefreshToken(token) {
-  return new Promise(async (resolve, reject) => {
-    JWT.verify(token, REFRESH_TOKEN_SECRET_KEY, async (err, payload) => {
-      if (err)
-        throw reject(createHttpError.Unauthorized("وارد حساب کاربری خود شوید"));
-      const { mobile } = payload || {};
-      const user = await UserModel.findOne({ mobile }, { password: 0, otp: 0 });
-      if (!user)
-        throw reject(
-          createHttpError.Unauthorized("حساب کاربری مورد نظر یافت نشد")
-        );
-      const refreshToken = await redisClient.get(String(user?._id));
-      if (!refreshToken)
-        throw reject(
-          createHttpError.Unauthorized("ورود مجدد به حساب کاربری انجام نشد")
-        );
-      if (refreshToken === token) return resolve(mobile);
-      reject(
-        createHttpError.Unauthorized("ورود مجدد به حساب کاربری انجام نشد")
-      );
-    });
-  });
-}
+// function verifyRefreshToken(token) {
+//   return new Promise(async (resolve, reject) => {
+//     JWT.verify(token, REFRESH_TOKEN_SECRET_KEY, async (err, payload) => {
+//       if (err)
+//         throw reject(createHttpError.Unauthorized("وارد حساب کاربری خود شوید"));
+//       const { mobile } = payload || {};
+//       const user = await UserModel.findOne({ mobile }, { password: 0, otp: 0 });
+//       if (!user)
+//         throw reject(
+//           createHttpError.Unauthorized("حساب کاربری مورد نظر یافت نشد")
+//         );
+//       const refreshToken = await redisClient.get(String(user?._id));
+//       if (!refreshToken)
+//         throw reject(
+//           createHttpError.Unauthorized("ورود مجدد به حساب کاربری انجام نشد")
+//         );
+//       if (refreshToken === token) return resolve(mobile);
+//       reject(
+//         createHttpError.Unauthorized("ورود مجدد به حساب کاربری انجام نشد")
+//       );
+//     });
+//   });
+// }
 
 function copyObject(object) {
   return JSON.parse(JSON.stringify(object));
@@ -224,7 +224,7 @@ const UtilsFunctions = {
   RandomNumberGenerator,
   SignAccessToken,
   SignRefreshToken,
-  verifyRefreshToken,
+  // verifyRefreshToken,
   copyObject,
   deleteInvalidPropertyInObject,
   ListOfImagesForRequest,
