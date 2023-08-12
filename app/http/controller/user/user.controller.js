@@ -48,7 +48,7 @@ class User extends Controller {
       const { search } = req.query;
       const dataQuery = {};
       if (search) dataQuery["$text"] = { $search: search };
-      const users = await UserModel.find(dataQuery);
+      const users = await UserModel.find(dataQuery,{"otp.expiresIn" : 0});
       return res.status(HttpStatus.OK).json({
         statusCode: HttpStatus.OK,
         data: {
