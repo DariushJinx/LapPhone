@@ -8,11 +8,8 @@ const {
   deleteFileInPublic,
   copyObject,
   deleteInvalidPropertyInObject,
-  getComment,
   getCommentWithComment,
-  getAnswerComment,
 } = require("../../../utils/functions.utils");
-const { default: mongoose } = require("mongoose");
 
 class Blog extends Controller {
   async createBlog(req, res, next) {
