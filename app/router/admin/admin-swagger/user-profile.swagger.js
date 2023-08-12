@@ -7,6 +7,10 @@
  *          responses : 
  *              200 : 
  *                  description : success
+ *                  content :
+ *                      application/json :
+ *                          schema :
+ *                              $ref : '#/definitions/GetBookmarked'
  */
 /**
  * @swagger
@@ -17,6 +21,10 @@
  *          responses : 
  *              200 : 
  *                  description : success
+ *                  content : 
+ *                      application/json :
+ *                              schema :
+ *                                  $ref : '#/definitions/GetBookmarkedProduct'
  */
 /**
  * @swagger
@@ -27,4 +35,8 @@
  *          responses : 
  *              200 : 
  *                  description : success
+ *                  content : 
+ *                      application/json :
+ *                              schema :
+ *                                  $ref : '#/definitions/Basket'
  */
