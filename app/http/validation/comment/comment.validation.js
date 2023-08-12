@@ -1,6 +1,5 @@
 const Joi = require("@hapi/joi");
 const createHttpError = require("http-errors");
-const { MongoIDPattern } = require("../../../utils/constans.utils");
 
 const CreateCommentValidation = Joi.object({
   comment: Joi.string().error(
