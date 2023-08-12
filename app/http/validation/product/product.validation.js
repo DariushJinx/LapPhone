@@ -5,11 +5,11 @@ const { MongoIDPattern } = require("../../../utils/constans.utils");
 const ProductValidation = Joi.object({
   title: Joi.string()
     .min(3)
-    .max(150)
+    .max(250)
     .error(createHttpError.BadRequest("عنوان ارسالی محصول صحیح نمی باشد")),
   short_title: Joi.string()
     .min(3)
-    .max(50)
+    .max(150)
     .error(
       createHttpError.BadRequest("عنوان کوتاه ارسالی محصول صحیح نمی باشد")
     ),
