@@ -69,7 +69,7 @@ class Profile {
   async getUserBookmarkedProducts(req, res, next) {
     try {
       const user = req.user;
-      const blogs = await ProductModel.find({ bookmarks: user._id })
+      const products = await ProductModel.find({ bookmarks: user._id })
         .populate([
           {
             path: "supplier",
@@ -121,7 +121,7 @@ class Profile {
         statusCode: HttpStatus.OK,
         data: {
           message: "لیست ذخیره شده ها با موفقیت بازگردانده شد",
-          blogs,
+          products,
         },
       });
     } catch (err) {
