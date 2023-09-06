@@ -6,10 +6,7 @@ const {
   // verifyRefreshToken,
 } = require("../../../utils/functions.utils");
 const UserModel = require("../../models/user/user.model");
-const {
-  GetOtpValidation,
-  CheckOtpValidation,
-} = require("../../validation/auth/auth.validation");
+const { GetOtpValidation, CheckOtpValidation } = require("../../validation/auth/auth.validation");
 const { StatusCodes: HttpStatus } = require("http-status-codes");
 const Controller = require("../controller");
 
@@ -38,13 +35,9 @@ class Auth extends Controller {
     try {
       const validation = await CheckOtpValidation.validateAsync(req.body);
       const { mobile, code } = validation;
-      const user = await UserModel.findOne(
-        { mobile },
-        { password: 0, "otp.expiresIn" : 0 }
-      );
+      const user = await UserModel.findOne({ mobile }, { password: 0, "otp.expiresIn": 0 });
       if (!user) throw createHttpError.NotFound("کاربر مورد نظر یافت نشد");
-      if (user.otp.code != code)
-        throw createHttpError.Unauthorized("کد وارد شده معتبر نمی باشد");
+      if (user.otp.code != code) throw createHttpError.Unauthorized("کد وارد شده معتبر نمی باشد");
       const now = new Date().getTime();
       if (+user.otp.expiresIn < now)
         throw createHttpError.Unauthorized("کد وارد شده منقضی شده است");
@@ -56,6 +49,21 @@ class Auth extends Controller {
           message: "کد وارد شده صحیح می باشد",
           accessToken,
           refreshToken,
+          user,
+        },
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async getMe(req, res, next) {
+    try {
+      const user = req.user;
+
+      return res.status(HttpStatus.OK).json({
+        statusCode: HttpStatus.OK,
+        data: {
           user,
         },
       });
@@ -95,9 +103,7 @@ class Auth extends Controller {
     const countOfRegisteredUser = await UserModel.count();
     if (user) {
       if (+user.otp.expiresIn > now) {
-        throw createHttpError.Forbidden(
-          "کد احراز هویت قبلی هنوز منقضی نشده است"
-        );
+        throw createHttpError.Forbidden("کد احراز هویت قبلی هنوز منقضی نشده است");
       }
       return await this.updateUser(mobile, { otp });
     }
@@ -115,13 +121,9 @@ class Auth extends Controller {
 
   async updateUser(mobile, objectData = {}) {
     Object.keys(objectData).forEach((key) => {
-      if (["", " ", "0", 0, null, undefined, NaN].includes(objectData[key]))
-        delete objectData[key];
+      if (["", " ", "0", 0, null, undefined, NaN].includes(objectData[key])) delete objectData[key];
     });
-    const updateResult = await UserModel.updateOne(
-      { mobile },
-      { $set: objectData }
-    );
+    const updateResult = await UserModel.updateOne({ mobile }, { $set: objectData });
 
     return !!updateResult.modifiedCount;
   }
