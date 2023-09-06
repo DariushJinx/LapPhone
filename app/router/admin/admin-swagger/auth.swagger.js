@@ -32,14 +32,14 @@
 
 /**
  * @swagger
- *  components : 
- *      schemas : 
- *          RefreshToken : 
+ *  components :
+ *      schemas :
+ *          RefreshToken :
  *              type : object
- *              required : 
+ *              required :
  *                  -   refreshToken
- *              properties : 
- *                  refreshToken : 
+ *              properties :
+ *                  refreshToken :
  *                      type : string
  *                      description : create new access and refresh token
  */
@@ -63,8 +63,8 @@
  *              201 :
  *                  description : Success - Created
  *                  content :
- *                      application/json : 
- *                          schema : 
+ *                      application/json :
+ *                          schema :
  *                              $ref : '#/definitions/GetOtpAuth'
  */
 
@@ -87,31 +87,42 @@
  *              201 :
  *                  description : Success - Created
  *                  content :
- *                      application/json : 
- *                          schema : 
+ *                      application/json :
+ *                          schema :
  *                              $ref : '#/definitions/OTP'
  */
 
 /**
  * @swagger
- *  /auth/refresh-token : 
- *      post : 
+ *  /auth/get-me :
+ *      get :
+ *          tags : [User Authentication]
+ *          summary : get information user
+ *          responses :
+ *              200 :
+ *                  description : Success
+ */
+
+/**
+ * @swagger
+ *  /auth/refresh-token :
+ *      post :
  *          tags : [User Authentication]
  *          summary : get new token and refresh token
- *          requestBody : 
+ *          requestBody :
  *              required : true
- *              content : 
- *                  application/x-www-form-urlencoded : 
- *                      schema : 
+ *              content :
+ *                  application/x-www-form-urlencoded :
+ *                      schema :
  *                          $ref : '#/components/schemas/RefreshToken'
- *                  application/json : 
- *                      schema : 
+ *                  application/json :
+ *                      schema :
  *                          $ref : '#/components/schemas/RefreshToken'
  *          responses :
  *              201 :
  *                  description : Success - Created
  *                  content :
- *                      application/json : 
- *                          schema : 
+ *                      application/json :
+ *                          schema :
  *                              $ref : '#/definitions/OTP'
  */
