@@ -1,6 +1,4 @@
-const {
-  verifyAccessToken,
-} = require("../http/middlewares/verifyAccessToken.middleware");
+const { verifyAccessToken } = require("../http/middlewares/verifyAccessToken.middleware");
 const commentRoutes = require("./admin/comment/comment.routes");
 const AdminRoutes = require("./admin/main.admin.routes");
 const AuthRoutes = require("./auth/auth.routes");
