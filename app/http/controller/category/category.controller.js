@@ -23,7 +23,8 @@ class Category extends Controller {
 
       const { title, parent } = validation;
       await this.findCategoryWithTitle(title);
-      const category = await CategoryModel.create({ title, parent, images });
+      if(parent){
+         const category = await CategoryModel.create({ title, parent, images });
       if (!category)
         throw createHttpError.InternalServerError(
           "خطای داخلی || دسته بندی مورد نظر ایجاد نشد"
@@ -35,6 +36,20 @@ class Category extends Controller {
           category,
         },
       });
+      }else{
+         const category = await CategoryModel.create({ title, images });
+      if (!category)
+        throw createHttpError.InternalServerError(
+          "خطای داخلی || دسته بندی مورد نظر ایجاد نشد"
+        );
+      res.status(HttpStatus.CREATED).json({
+        statusCode: HttpStatus.CREATED,
+        data: {
+          message: "دسته بندی مورد نظر با موفقیت ایجاد شد",
+          category,
+        },
+      });
+      }
     } catch (err) {
       deleteFileInPublic(req.body.images);
       next(err);
