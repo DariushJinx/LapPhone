@@ -97,7 +97,7 @@ class Auth extends Controller {
     const now = new Date().getTime();
     let otp = {
       code,
-      expiresIn: now + 2592000,
+      expiresIn: now + 10000,
     };
     const user = await this.checkExistUser(mobile);
     const countOfRegisteredUser = await UserModel.count();
